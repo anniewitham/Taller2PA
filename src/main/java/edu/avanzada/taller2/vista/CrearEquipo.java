@@ -5,6 +5,8 @@
 package edu.avanzada.taller2.vista;
 
 import edu.avanzada.taller2.control.ControlPrincipal;
+import java.awt.event.ActionListener;
+import javax.swing.JTextField;
 
 /**
  *
@@ -13,11 +15,14 @@ import edu.avanzada.taller2.control.ControlPrincipal;
 public class CrearEquipo extends javax.swing.JFrame {
 
     private ControlPrincipal control;
+
     /**
      * Creates new form CrearEquipo
      */
-    public CrearEquipo() {
+    public CrearEquipo(ControlPrincipal aThis) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -41,6 +46,8 @@ public class CrearEquipo extends javax.swing.JFrame {
         Cedula = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         BotonRegistrar = new javax.swing.JButton();
+        BotonSalir = new javax.swing.JButton();
+        BotonVolver = new javax.swing.JButton();
         Jugador1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -129,6 +136,17 @@ public class CrearEquipo extends javax.swing.JFrame {
             }
         });
 
+        BotonSalir.setBackground(new java.awt.Color(186, 186, 249));
+        BotonSalir.setText("Salir");
+        BotonSalir.setBorder(null);
+
+        BotonVolver.setText("Volver");
+        BotonVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout CapitanLayout = new javax.swing.GroupLayout(Capitan);
         Capitan.setLayout(CapitanLayout);
         CapitanLayout.setHorizontalGroup(
@@ -138,32 +156,45 @@ public class CrearEquipo extends javax.swing.JFrame {
                     .addGroup(CapitanLayout.createSequentialGroup()
                         .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(CapitanLayout.createSequentialGroup()
-                                .addGap(124, 124, 124)
-                                .addComponent(jLabel4))
-                            .addGroup(CapitanLayout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5))
-                                .addGap(34, 34, 34)
-                                .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Nombre)
-                                    .addComponent(Edad)
-                                    .addComponent(AñosExp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                                    .addComponent(Cedula, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))))
-                        .addGap(0, 76, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CapitanLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(BotonRegistrar)))
+                                .addGap(39, 39, 39)
+                                .addComponent(jLabel3))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CapitanLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addGap(35, 35, 35))
+                    .addGroup(CapitanLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BotonVolver)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(CapitanLayout.createSequentialGroup()
+                            .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Edad, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(AñosExp, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(102, 102, 102))
+                        .addGroup(CapitanLayout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(BotonRegistrar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         CapitanLayout.setVerticalGroup(
             CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CapitanLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel4)
+                .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CapitanLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CapitanLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
                 .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -181,7 +212,9 @@ public class CrearEquipo extends javax.swing.JFrame {
                     .addComponent(AñosExp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BotonRegistrar)
+                .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonRegistrar)
+                    .addComponent(BotonVolver))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -597,44 +630,134 @@ public class CrearEquipo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Cedula5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CrearEquipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CrearEquipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CrearEquipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CrearEquipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void BotonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVolverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonVolverActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CrearEquipo().setVisible(true);
-            }
-        });
+// LISTENER ---------
+    public void addSalirListener(ActionListener listener) {
+        BotonSalir.addActionListener(listener);
     }
 
+    public void addVolverMenuListener(ActionListener listener) {
+        BotonVolver.addActionListener(listener);
+    }
+
+    public void addRegistarListener(ActionListener listener) {
+        BotonRegistrar.addActionListener(listener);
+    }
+
+    // CARGAR ---
+    public JTextField cargarNombre() {
+        return Nombre;
+    }
+
+    public JTextField cargarEdad() {
+        return Edad;
+    }
+
+    public JTextField cargarCedula() {
+        return Cedula;
+    }
+
+    public JTextField cargarAñosExp() {
+        return AñosExp;
+    }
+
+    public JTextField cargarNombre1() {
+        return Nombre1;
+    }
+
+    public JTextField cargarEdad1() {
+        return Edad1;
+    }
+
+    public JTextField cargarCedula1() {
+        return Cedula1;
+    }
+
+    public JTextField cargarNombre2() {
+        return Nombre2;
+    }
+
+    public JTextField cargarEdad2() {
+        return Edad2;
+    }
+
+    public JTextField cargarCedula2() {
+        return Cedula2;
+    }
+
+    public JTextField cargarNombre3() {
+        return Nombre3;
+    }
+
+    public JTextField cargarEdad3() {
+        return Edad3;
+    }
+
+    public JTextField cargarCedula3() {
+        return Cedula3;
+    }
+
+    public JTextField cargarNombre4() {
+        return Nombre4;
+    }
+
+    public JTextField cargarEdad4() {
+        return Edad4;
+    }
+
+    public JTextField cargarCedula4() {
+        return Cedula4;
+    }
+
+    public JTextField cargarNombre5() {
+        return Nombre5;
+    }
+
+    public JTextField cargarEdad5() {
+        return Edad5;
+    }
+
+    public JTextField cargarCedula5() {
+        return Cedula5;
+    }
+
+    //LIMPIAR CAMPOS
+    public void resetearCamposBus() {
+        Nombre.setText("");
+        Cedula.setText("");
+        Edad.setText("");
+        AñosExp.setText("");
+        
+        Nombre1.setText("");
+        Cedula1.setText("");
+        Edad1.setText("");
+        
+        Nombre2.setText("");
+        Cedula2.setText("");
+        Edad2.setText("");
+        
+        Nombre3.setText("");
+        Cedula3.setText("");
+        Edad3.setText("");
+        
+        Nombre4.setText("");
+        Cedula4.setText("");
+        Edad4.setText("");
+        
+        Nombre5.setText("");
+        Cedula5.setText("");
+        Edad5.setText("");
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AñosExp;
     private javax.swing.JButton BotonRegistrar;
+    private javax.swing.JButton BotonSalir;
+    private javax.swing.JButton BotonVolver;
     private javax.swing.JPanel Capitan;
     private javax.swing.JTextField Cedula;
     private javax.swing.JTextField Cedula1;
