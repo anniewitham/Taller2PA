@@ -1,16 +1,33 @@
 package edu.avanzada.taller2.modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Representa a un equipo con sus atributos y métodos correspondientes.
  */
-public class Equipo {
+public class Equipo implements Serializable{
 
     private String nombreEquipo;
     private int numeroEquipo;
     private Capitan capitan;
     private List<Jugador> jugadores;
+
+    /**
+     * 
+     *  Constructor que inicializa el equipo con su nombre, número, lista de jugadores y capitán.
+     * 
+     * @param nombreEquipo
+     * @param numeroEquipo
+     * @param capitan
+     * @param jugadores 
+     */
+    public Equipo(String nombreEquipo, int numeroEquipo, Capitan capitan, List<Jugador> jugadores) {
+        this.nombreEquipo = nombreEquipo;
+        this.numeroEquipo = numeroEquipo;
+        this.capitan = capitan;
+        this.jugadores = jugadores;
+    }
 
     /**
      * Establece el nombre del equipo.

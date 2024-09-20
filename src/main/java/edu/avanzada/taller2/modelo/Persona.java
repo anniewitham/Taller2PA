@@ -8,10 +8,39 @@ public class Persona {
     private String cedula;
     private String nombre;
     private int edad;
-    
-    
-    
-    
+
+    /**
+     * Constructor que inicializa la persona con su cédula.
+     *
+     * @param cedula La cédula de la persona.
+     */
+    public Persona(String cedula) {
+        this.cedula = cedula;
+    }
+
+    /**
+     * Constructor que inicializa la persona con su cédula y nombre.
+     *
+     * @param cedula La cédula de la persona.
+     * @param nombre El nombre de la persona.
+     */
+    public Persona(String cedula, String nombre) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+    }
+
+    /**
+     * Constructor que inicializa la persona con su cédula, nombre y edad.
+     *
+     * @param cedula La cédula de la persona.
+     * @param nombre El nombre de la persona.
+     * @param edad La edad de la persona.
+     */
+    public Persona(String cedula, String nombre, int edad) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.edad = edad;
+    }
 
     /**
      * Devuelve el número de identificación de la persona.
