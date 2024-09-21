@@ -65,33 +65,38 @@ public class ControlEquipo {
         }
     }
 
-   //Elimina un jugador del equipo
-    public boolean eliminarJugador(Capitan jugador) {
-        // Verifica si el jugador es nulo
-        if (jugador == null) {
-            System.out.println("No se puede eliminar un jugador nulo.");
-            return false;
-        }
-
-        // Verifica si el jugador está en la lista
-        if (!equipo.getJugadores().contains(jugador)) {
-            System.out.println("El jugador no está en el equipo.");
-            return false;
-        }
-
-        // Si el capitán es el jugador a eliminar
-        if (equipo.getCapitan() != null && equipo.getCapitan().equals(jugador)) {
-            System.out.println("No se puede eliminar al capitán del equipo.");
-            return false;
-        }
-
-        // Elimina el jugador y devuelve el resultado
-        boolean eliminado = equipo.getJugadores().remove(jugador);
-        if (eliminado) {
-            System.out.println("Jugador eliminado exitosamente.");
-        }
-        return eliminado;
+// Elimina un jugador del equipo.
+public boolean eliminarJugador(Jugador jugador) {
+    // Verifica si el jugador es nulo
+    if (jugador == null) {
+        System.out.println("No se puede eliminar un jugador nulo.");
+        return false;
     }
+
+    // Verifica si el jugador está en la lista de jugadores del equipo
+    if (!equipo.getJugadores().contains(jugador)) {
+        System.out.println("El jugador no está en el equipo.");
+        return false;
+    }
+
+    // Verifica si el jugador es el capitán
+    if (equipo.getCapitan() != null && equipo.getCapitan().equals(jugador)) {
+        System.out.println("No se puede eliminar al capitán del equipo.");
+        return false;
+    }
+
+    // Elimina al jugador de la lista y devuelve el resultado
+    boolean eliminado = equipo.getJugadores().remove(jugador);
+    
+    if (eliminado) {
+        System.out.println("Jugador eliminado exitosamente.");
+    } else {
+        System.out.println("Error al eliminar el jugador.");
+    }
+    
+    return eliminado;
+}
+
 
     //Asigna un capitán al equipo
     public void asignarCapitan(Capitan capitan) throws IllegalArgumentException {
@@ -149,9 +154,7 @@ public class ControlEquipo {
         return equipo.getCapitan();
     }
 
-    boolean eliminarJugador(Jugador jugador2) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 }
 
 

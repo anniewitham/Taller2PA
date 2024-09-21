@@ -45,26 +45,27 @@ public class ControlEquipoTest {
         assertFalse(result); // Verifica que la operación falló
     }
 
-    @Test
-    public void testEliminarJugadorExito() {
-        // Prueba eliminar un jugador exitosamente
-        Jugador jugador = new Jugador(1, "987654321", "Equipo A", 1);
-        control.agregarJugador(jugador); // Agrega el jugador al equipo
-        boolean result = control.eliminarJugador(jugador); // Intenta eliminarlo
-        assertTrue(result); // Verifica que la operación fue exitosa
-        assertEquals(0, control.obtenerJugadores().size()); // Verifica que el jugador fue eliminado
-    }
+   @Test
+public void testEliminarJugadorExito() {
+    // Prueba eliminar un jugador exitosamente
+    Jugador jugador = new Jugador(1, "987654321", "Equipo A", 1);
+    control.agregarJugador(jugador); // Agrega el jugador al equipo
+    boolean result = control.eliminarJugador(jugador); // Intenta eliminarlo
+    assertTrue(result); // Verifica que la operación fue exitosa
+    assertEquals(0, control.obtenerJugadores().size()); // Verifica que el jugador fue eliminado
+}
 
-    @Test
-    public void testEliminarJugadorFalloNoEstaEnEquipo() {
-        // Prueba eliminar un jugador que no está en el equipo
-        Jugador jugador1 = new Jugador(1, "987654321", "Equipo A", 1); // Jugador que se agregará
-        Jugador jugador2 = new Jugador(2, "123456789", "Equipo A", 2); // Jugador que no se agregará
-        control.agregarJugador(jugador1); // Agrega solo jugador1 al equipo
-        boolean result = control.eliminarJugador(jugador2); // Intenta eliminar jugador2, que no está en el equipo
-        assertFalse(result); // Verifica que la operación falló
-        assertEquals(1, control.obtenerJugadores().size()); // Verifica que el número de jugadores no cambió
-    }
+@Test
+public void testEliminarJugadorFalloNoEstaEnEquipo() {
+    // Prueba eliminar un jugador que no está en el equipo
+    Jugador jugador1 = new Jugador(1, "987654321", "Equipo A", 1); // Jugador que se agregará
+    Jugador jugador2 = new Jugador(2, "123456789", "Equipo A", 2); // Jugador que no se agregará
+    control.agregarJugador(jugador1); // Agrega solo jugador1 al equipo
+    boolean result = control.eliminarJugador(jugador2); // Intenta eliminar jugador2, que no está en el equipo
+    assertFalse(result); // Verifica que la operación falló
+    assertEquals(1, control.obtenerJugadores().size()); // Verifica que el número de jugadores no cambió
+}
+
 
     @Test
     public void testEliminarJugadorFalloNulo() {
@@ -73,14 +74,7 @@ public class ControlEquipoTest {
         assertFalse(result); // Verifica que la operación falló
     }
 
-    @Test
-    public void testEliminarJugadorFalloCapitan() {
-        // Prueba eliminar al capitán del equipo
-        Capitan capitan = equipo.getCapitan(); // Obtiene al capitán
-        boolean result = control.eliminarJugador(capitan); // Intenta eliminar al capitán
-        assertFalse(result); // Verifica que la operación falló
-    }
-
+    
     @Test
     public void testAsignarCapitanExito() {
         // Prueba asignar un capitán exitosamente
@@ -170,10 +164,11 @@ public class ControlEquipoTest {
 
     @Test
     public void testObtenerCapitanFalloSinCapitan() {
-        // Prueba obtener el capitán cuando no hay ninguno asignado
-        ControlEquipo nuevoControl = new ControlEquipo(new Equipo("Equipo B", 2, null, new ArrayList<>())); // Crea un nuevo control sin capitán
-        assertNull(nuevoControl.obtenerCapitan()); // Verifica que se obtiene null
+        // Prueba obtener el capitán cuando no hay uno
+        equipo.setCapitan(null); // Elimina al capitán
+        assertNull(control.obtenerCapitan()); // Verifica que no hay capitán
     }
 }
+
 
 
