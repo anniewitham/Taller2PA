@@ -6,7 +6,7 @@ package edu.avanzada.taller2.modelo;
  */
 public class Jugador extends Persona {
 
-    private int numeroPosicion;
+    private String numeroPosicion;
 
     /**
      * Devuelve una representación en cadena del jugador.
@@ -31,8 +31,21 @@ public class Jugador extends Persona {
      * @param nombre El nombre del jugador.
      * @param edad La edad del jugador.
      */
-    public Jugador(int numeroPosicion, String cedula, String nombre, int edad) {
+    public Jugador(String numeroPosicion, String cedula, String nombre, String edad) {
         super(cedula, nombre, edad);
+        this.numeroPosicion = numeroPosicion;
+    }
+    
+    /**
+     * Constructor que inicializa el jugador con su número de posición, cédula,
+     * y nombre.
+     * 
+     * @param numeroPosicion
+     * @param cedula
+     * @param nombre 
+     */
+    public Jugador(String numeroPosicion, String cedula, String nombre) {
+        super(cedula, nombre);
         this.numeroPosicion = numeroPosicion;
     }
 
@@ -41,7 +54,7 @@ public class Jugador extends Persona {
      *
      * @return El número de posición del jugador.
      */
-    public int getNumeroPosicion() {
+    public String getNumeroPosicion() {
         return numeroPosicion;
     }
 
@@ -50,8 +63,7 @@ public class Jugador extends Persona {
      *
      * @param numeroPosicion El nuevo número de posición para el jugador.
      */
-    public void setNumeroPosicion(int numeroPosicion) {
+    public void setNumeroPosicion(String numeroPosicion) {
         this.numeroPosicion = numeroPosicion;
     }
-
 }

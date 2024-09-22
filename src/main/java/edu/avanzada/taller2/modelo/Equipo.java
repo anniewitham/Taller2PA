@@ -9,7 +9,7 @@ import java.util.List;
 public class Equipo implements Serializable{
 
     private String nombreEquipo;
-    private int numeroEquipo;
+    private String numeroEquipo;
     private Capitan capitan;
     private List<Jugador> jugadores;
 
@@ -22,11 +22,15 @@ public class Equipo implements Serializable{
      * @param capitan
      * @param jugadores 
      */
-    public Equipo(String nombreEquipo, int numeroEquipo, Capitan capitan, List<Jugador> jugadores) {
+    public Equipo(String nombreEquipo, String numeroEquipo, Capitan capitan, List<Jugador> jugadores) {
         this.nombreEquipo = nombreEquipo;
         this.numeroEquipo = numeroEquipo;
         this.capitan = capitan;
         this.jugadores = jugadores;
+    }
+    
+    public String getNombreEquipo() {
+        return nombreEquipo;
     }
 
     /**
@@ -43,7 +47,7 @@ public class Equipo implements Serializable{
      *
      * @return El número del equipo.
      */
-    public int getNumeroEquipo() {
+    public String getNumeroEquipo() {
         return numeroEquipo;
     }
 
@@ -52,7 +56,7 @@ public class Equipo implements Serializable{
      *
      * @param numeroEquipo El nuevo número para el equipo.
      */
-    public void setNumeroEquipo(int numeroEquipo) {
+    public void setNumeroEquipo(String numeroEquipo) {
         this.numeroEquipo = numeroEquipo;
     }
 

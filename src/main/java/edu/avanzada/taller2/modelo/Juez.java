@@ -32,8 +32,21 @@ public class Juez extends Persona {
      * @param nombre El nombre del juez.
      * @param edad La edad del juez.
      */
-    public Juez(String numeroTarjetaProfesional, String cedula, String nombre, int edad) {
+    public Juez(String numeroTarjetaProfesional, String cedula, String nombre, String edad) {
         super(cedula, nombre, edad);
+        this.numTarjetaProf = numeroTarjetaProfesional;
+    }
+    
+    /**
+     * Constructor que inicializa el juez con su número de tarjeta profesional,
+     * cédula y nombre.
+     * 
+     * @param numeroTarjetaProfesional
+     * @param cedula
+     * @param nombre 
+     */
+    public Juez(String numeroTarjetaProfesional, String cedula, String nombre) {
+        super(cedula, nombre);
         this.numTarjetaProf = numeroTarjetaProfesional;
     }
 

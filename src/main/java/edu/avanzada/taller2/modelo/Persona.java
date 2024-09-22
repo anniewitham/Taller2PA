@@ -7,16 +7,18 @@ public class Persona {
 
     private String cedula;
     private String nombre;
-    private int edad;
+    private String edad;
 
+    /*
     /**
      * Constructor que inicializa la persona con su cédula.
      *
      * @param cedula La cédula de la persona.
-     */
+     
     public Persona(String cedula) {
         this.cedula = cedula;
     }
+    */
 
     /**
      * Constructor que inicializa la persona con su cédula y nombre.
@@ -36,7 +38,7 @@ public class Persona {
      * @param nombre El nombre de la persona.
      * @param edad La edad de la persona.
      */
-    public Persona(String cedula, String nombre, int edad) {
+    public Persona(String cedula, String nombre, String edad) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.edad = edad;
@@ -83,7 +85,7 @@ public class Persona {
      *
      * @return La edad de la persona.
      */
-    public int getEdad() {
+    public String getEdad() {
         return edad;
     }
 
@@ -92,7 +94,7 @@ public class Persona {
      *
      * @param edad La nueva edad para la persona.
      */
-    public void setEdad(int edad) {
+    public void setEdad(String edad) {
         this.edad = edad;
     }
 

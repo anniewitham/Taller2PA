@@ -6,7 +6,7 @@ package edu.avanzada.taller2.modelo;
  */
 public class Capitan extends Persona {
 
-    private int añosExperiencia;
+    private String añosExperiencia;
 
     /**
      * Devuelve una representación en cadena del capitan.
@@ -31,8 +31,21 @@ public class Capitan extends Persona {
      * @param nombre El nombre del capitán.
      * @param edad La edad del capitán.
      */
-    public Capitan(int añosExperiencia, String cedula, String nombre, int edad) {
+    public Capitan(String añosExperiencia, String cedula, String nombre, String edad) {
         super(cedula, nombre, edad);
+        this.añosExperiencia = añosExperiencia;
+    }
+    
+    /**
+     * Constructor que inicializa el capitán con sus años de experiencia,
+     * cédula y nombre.
+     * 
+     * @param añosExperiencia
+     * @param cedula
+     * @param nombre 
+     */
+    public Capitan(String añosExperiencia, String cedula, String nombre) {
+        super(cedula, nombre);
         this.añosExperiencia = añosExperiencia;
     }
 
@@ -41,7 +54,7 @@ public class Capitan extends Persona {
      *
      * @return Los años de experiencia del capitán.
      */
-    public int getAñosExperiencia() {
+    public String getAñosExperiencia() {
         return añosExperiencia;
     }
 
@@ -50,7 +63,7 @@ public class Capitan extends Persona {
      *
      * @param añosExperiencia Los nuevos años de experiencia para el capitán.
      */
-    public void setAñosExperiencia(int añosExperiencia) {
+    public void setAñosExperiencia(String añosExperiencia) {
         this.añosExperiencia = añosExperiencia;
     }
 

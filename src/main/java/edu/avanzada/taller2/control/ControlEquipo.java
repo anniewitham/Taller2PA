@@ -22,23 +22,23 @@ public class ControlEquipo {
     public void cargarEquipos() {
         for (int i = 1; i <= 2; i++) {
             String nombreEquipo = arcProp.getProperty("equipo" + i + ".nombre");
-            int numeroEquipo = Integer.parseInt(arcProp.getProperty("equipo" + i + ".numero"));
+            String numeroEquipo = arcProp.getProperty("equipo" + i + ".numero");
 
             // Crear capitán
             String capitanNombre = arcProp.getProperty("equipo" + i + ".capitan.nombre");
-            int capitanEdad = Integer.parseInt(arcProp.getProperty("equipo" + i + ".capitan.edad"));
+            String capitanEdad = arcProp.getProperty("equipo" + i + ".capitan.edad");
             String capitanCedula = arcProp.getProperty("equipo" + i + ".capitan.cedula");
-            int aniosExp = Integer.parseInt(arcProp.getProperty("equipo" + i + ".capitan.añosExp"));
-            Capitan capitan = new Capitan(aniosExp, capitanCedula, nombreEquipo, i);
+            String aniosExp = arcProp.getProperty("equipo" + i + ".capitan.añosExp");
+            Capitan capitan = new Capitan(aniosExp, capitanCedula, nombreEquipo, capitanEdad);
 
             // Crear jugadores
             List<Jugador> jugadores = new ArrayList<>();
             for (int j = 1; j <= 5; j++) {
                 String jugadorNombre = arcProp.getProperty("equipo" + i + ".jugador" + j + ".nombre");
-                int jugadorEdad = Integer.parseInt(arcProp.getProperty("equipo" + i + ".jugador" + j + ".edad"));
+                String jugadorEdad = arcProp.getProperty("equipo" + i + ".jugador" + j + ".edad");
                 String jugadorCedula = arcProp.getProperty("equipo" + i + ".jugador" + j + ".cedula");
-                int numeroPosicion = Integer.parseInt(arcProp.getProperty("equipo" + i + ".jugador" + j + ".numeroPo"));
-                Jugador jugador = new Jugador(numeroPosicion, jugadorCedula, nombreEquipo, j);
+                String numeroPosicion = arcProp.getProperty("equipo" + i + ".jugador" + j + ".numeroPo");
+                Jugador jugador = new Jugador(numeroPosicion, jugadorCedula, nombreEquipo, jugadorEdad);
                 jugadores.add(jugador);
             }
 
