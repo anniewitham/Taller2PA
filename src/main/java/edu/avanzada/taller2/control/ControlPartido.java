@@ -13,9 +13,7 @@ public class ControlPartido {
     private int puntajeB;
     private boolean partidoEnCurso;
     private Random random = new Random(); // Para generar puntajes aleatorios
-    private int lanzamientosA; // Contador de lanzamientos para el equipo A
-    private int lanzamientosB; // Contador de lanzamientos para el equipo B
-    private final int maxLanzamientos = 5; // Número máximo de lanzamientos
+    private int puntajeMaximo; // Puntaje máximo para ganar
 
     /**
      * Constructor que inicializa el partido con dos equipos y un juez.
@@ -23,20 +21,20 @@ public class ControlPartido {
      * @param equipoA El equipo A.
      * @param equipoB El equipo B.
      * @param juez El juez asignado al partido.
+     * @param puntajeMaximo El puntaje máximo para ganar el partido.
      * @throws IllegalArgumentException si alguno de los parámetros es nulo.
      */
-    public ControlPartido(Equipo equipoA, Equipo equipoB, Juez juez) {
+    public ControlPartido(Equipo equipoA, Equipo equipoB, Juez juez, int puntajeMaximo) {
         if (equipoA == null || equipoB == null || juez == null) {
             throw new IllegalArgumentException("Equipo A, equipo B y juez no pueden ser nulos.");
         }
         this.equipoA = equipoA;
         this.equipoB = equipoB;
         this.juez = juez;
+        this.puntajeMaximo = puntajeMaximo;
         this.puntajeA = 0;
         this.puntajeB = 0;
         this.partidoEnCurso = false;
-        this.lanzamientosA = 0;
-        this.lanzamientosB = 0;
     }
 
     /**
@@ -52,55 +50,47 @@ public class ControlPartido {
     }
 
     /**
-     * Simula la asignación de puntajes aleatorios entre 0, 50 y 150 para los dos
-     * equipos.
+     * Simula la asignación de puntajes aleatorios entre 50 y 150 para los dos equipos.
      */
-    public void simularPuntaje() {
-        if (!partidoEnCurso) {
-            throw new IllegalStateException("El partido no ha comenzado aún.");
-        }
-
-        // Verifica si alguno de los equipos ha alcanzado los 5000 puntos
-        if (puntajeA >= 5000 || puntajeB >= 5000) {
-            System.out.println("El partido ya ha terminado. No se pueden realizar más lanzamientos.");
-            return;
-        }
-
-        if (lanzamientosA < maxLanzamientos) {
-            puntajeA += generarPuntaje(); // Genera un puntaje para el equipo A
-            lanzamientosA++;
-            System.out.println("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeA + " puntos.");
-        }
-
-        if (lanzamientosB < maxLanzamientos) {
-            puntajeB += generarPuntaje(); // Genera un puntaje para el equipo B
-            lanzamientosB++;
-            System.out.println("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeB + " puntos.");
-        }
-
-        // Verifica si alguno de los equipos ha alcanzado los 5000 puntos
-        if (puntajeA >= 5000 || puntajeB >= 5000) {
-            finalizarPartido();
-        }
+   public void simularPuntaje() throws IllegalStateException, IllegalArgumentException {
+    // Verifica si el partido ha comenzado
+    if (!partidoEnCurso) {
+        throw new IllegalStateException("El partido no ha comenzado aún.");
     }
 
-    /**
-     * Genera un puntaje aleatorio entre 0, 50 y 150.
-     *
-     * @return un puntaje aleatorio.
-     */
-    private int generarPuntaje() {
-        int tipo = random.nextInt(3); // 0, 1, o 2
-        switch (tipo) {
-            case 0:
-                return 0; // 0 puntos
-            case 1:
-            case 2:
-                return random.nextInt(101) + 50; // Puntaje entre 50 y 150
-            default:
-                return 0; // Esto nunca debería ocurrir
-        }
+    // Verifica si el partido ya ha terminado
+    if (puntajeA >= puntajeMaximo || puntajeB >= puntajeMaximo) {
+        throw new IllegalArgumentException("El partido ya ha terminado.");
     }
+
+    // Probabilidades basadas en 1/8 y 5/8
+    int resultado = random.nextInt(8); // Genera un número entre 0 y 7
+    int puntajeEquipoA;
+    int puntajeEquipoB;
+
+    if (resultado < 3) {
+        // Probabilidad 1/8 para tres de los orificios
+        puntajeEquipoA = 150;
+        puntajeEquipoB = 150;
+    } else {
+        // Probabilidad 5/8 para el otro orificio
+        puntajeEquipoA = random.nextInt(71) + 30; // Puntaje entre 30 y 100
+        puntajeEquipoB = random.nextInt(71) + 30; // Puntaje entre 30 y 100
+    }
+
+    // Actualizamos los puntajes
+    puntajeA += puntajeEquipoA;
+    puntajeB += puntajeEquipoB;
+
+    System.out.println("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeA + " puntos.");
+    System.out.println("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeB + " puntos.");
+
+    // Verificar si alguno de los equipos ha alcanzado el puntaje máximo
+    if (puntajeA >= puntajeMaximo || puntajeB >= puntajeMaximo) {
+        finalizarPartido();
+    }
+}
+
 
     /**
      * Finaliza el partido y determina el equipo ganador, o si hubo un empate.
@@ -128,8 +118,6 @@ public class ControlPartido {
     public void reiniciarPartido() {
         puntajeA = 0;
         puntajeB = 0;
-        lanzamientosA = 0;
-        lanzamientosB = 0;
         partidoEnCurso = false;
         System.out.println("El partido ha sido reiniciado.");
     }
@@ -181,3 +169,4 @@ public class ControlPartido {
         return partidoEnCurso;
     }
 }
+
