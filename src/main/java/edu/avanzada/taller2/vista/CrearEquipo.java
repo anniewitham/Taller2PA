@@ -23,7 +23,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
     }
     
     public void resetearCamposCrearEquipo() {
-        jTextNombreEquipo.setText("");
+        TextoNombreEquipo.setText("");
 
         Nombre.setText("");
         Cedula.setText("");
@@ -67,7 +67,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
         BotonRegistrar = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jTextNombreEquipo = new javax.swing.JTextField();
+        TextoNombreEquipo = new javax.swing.JTextField();
         Capitan = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -149,9 +149,9 @@ public class CrearEquipo  extends javax.swing.JFrame {
         jLabel26.setForeground(new java.awt.Color(0, 0, 153));
         jLabel26.setText("Nombre Equipo");
 
-        jTextNombreEquipo.addActionListener(new java.awt.event.ActionListener() {
+        TextoNombreEquipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextNombreEquipoActionPerformed(evt);
+                TextoNombreEquipoActionPerformed(evt);
             }
         });
 
@@ -179,7 +179,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                         .addComponent(jLabel26)
                         .addGap(92, 92, 92))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                        .addComponent(jTextNombreEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TextoNombreEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66))))
         );
         NombreEquipoLayout.setVerticalGroup(
@@ -196,7 +196,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(NombreEquipoLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jTextNombreEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TextoNombreEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addGroup(NombreEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
@@ -659,9 +659,9 @@ public class CrearEquipo  extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonRegistrarActionPerformed
 
-    private void jTextNombreEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNombreEquipoActionPerformed
+    private void TextoNombreEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoNombreEquipoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextNombreEquipoActionPerformed
+    }//GEN-LAST:event_TextoNombreEquipoActionPerformed
 
     private void EdadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EdadActionPerformed
         // TODO add your handling code here:
@@ -716,7 +716,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
     }//GEN-LAST:event_Cedula5ActionPerformed
 
     public JTextField cargarNombreEquipo() {
-        return jTextNombreEquipo;
+        return TextoNombreEquipo;
     }
     public JTextField cargarNombre() {
         return Nombre;
@@ -793,38 +793,41 @@ public class CrearEquipo  extends javax.swing.JFrame {
     public JTextField cargarCedula5() {
         return Cedula5;
     }
+
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField AñosExp;
+    public javax.swing.JTextField AñosExp;
     public javax.swing.JButton BotonRegistrar;
     public javax.swing.JButton BotonSalir;
     public javax.swing.JButton BotonVolver;
-    private javax.swing.JPanel Capitan;
-    private javax.swing.JTextField Cedula;
-    private javax.swing.JTextField Cedula1;
-    private javax.swing.JTextField Cedula2;
-    private javax.swing.JTextField Cedula3;
-    private javax.swing.JTextField Cedula4;
-    private javax.swing.JTextField Cedula5;
-    private javax.swing.JTextField Edad;
-    private javax.swing.JTextField Edad1;
-    private javax.swing.JTextField Edad2;
-    private javax.swing.JTextField Edad3;
-    private javax.swing.JTextField Edad4;
-    private javax.swing.JTextField Edad5;
-    private javax.swing.JTabbedPane Equipo;
-    private javax.swing.JPanel Jugador1;
-    private javax.swing.JPanel Jugador2;
-    private javax.swing.JPanel Jugador3;
-    private javax.swing.JPanel Jugador4;
-    private javax.swing.JPanel Jugador5;
-    private javax.swing.JTextField Nombre;
-    private javax.swing.JTextField Nombre1;
-    private javax.swing.JTextField Nombre2;
-    private javax.swing.JTextField Nombre3;
-    private javax.swing.JTextField Nombre4;
-    private javax.swing.JTextField Nombre5;
-    private javax.swing.JPanel NombreEquipo;
+    public javax.swing.JPanel Capitan;
+    public javax.swing.JTextField Cedula;
+    public javax.swing.JTextField Cedula1;
+    public javax.swing.JTextField Cedula2;
+    public javax.swing.JTextField Cedula3;
+    public javax.swing.JTextField Cedula4;
+    public javax.swing.JTextField Cedula5;
+    public javax.swing.JTextField Edad;
+    public javax.swing.JTextField Edad1;
+    public javax.swing.JTextField Edad2;
+    public javax.swing.JTextField Edad3;
+    public javax.swing.JTextField Edad4;
+    public javax.swing.JTextField Edad5;
+    public javax.swing.JTabbedPane Equipo;
+    public javax.swing.JPanel Jugador1;
+    public javax.swing.JPanel Jugador2;
+    public javax.swing.JPanel Jugador3;
+    public javax.swing.JPanel Jugador4;
+    public javax.swing.JPanel Jugador5;
+    public javax.swing.JTextField Nombre;
+    public javax.swing.JTextField Nombre1;
+    public javax.swing.JTextField Nombre2;
+    public javax.swing.JTextField Nombre3;
+    public javax.swing.JTextField Nombre4;
+    public javax.swing.JTextField Nombre5;
+    public javax.swing.JPanel NombreEquipo;
+    public javax.swing.JTextField TextoNombreEquipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -850,8 +853,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    public javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextNombreEquipo;
     // End of variables declaration//GEN-END:variables
 }
