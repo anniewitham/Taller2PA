@@ -5,8 +5,6 @@
 package edu.avanzada.taller2.vista;
 
 import edu.avanzada.taller2.control.ControlPrincipal;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *
@@ -21,8 +19,9 @@ public class Inicio extends javax.swing.JFrame {
      */
     public Inicio(ControlPrincipal aThis) {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.control = control;
+        setLocationRelativeTo(null);
+        control = aThis;
+        setVisible(true);
     }
 
 
@@ -48,7 +47,7 @@ public class Inicio extends javax.swing.JFrame {
 
         BotonRegistrarEquipo.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         BotonRegistrarEquipo.setForeground(new java.awt.Color(102, 102, 102));
-        BotonRegistrarEquipo.setText("Resgistrar Equipo");
+        BotonRegistrarEquipo.setText("Registrar Equipo");
         BotonRegistrarEquipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonRegistrarEquipoActionPerformed(evt);
@@ -74,7 +73,7 @@ public class Inicio extends javax.swing.JFrame {
 
         BotonJuez.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         BotonJuez.setForeground(new java.awt.Color(102, 102, 102));
-        BotonJuez.setText("Resgistrar Juez");
+        BotonJuez.setText("Registrar Juez");
         BotonJuez.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonJuezActionPerformed(evt);
@@ -148,28 +147,11 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonJuezActionPerformed
 
-    // LISTENER---------------
-    public void addResgistrarEquipoListener(ActionListener listener) {
-        BotonRegistrarEquipo.addActionListener(listener);
-    }
-
-    public void addJugarListener(ActionListener listener) {
-        BotonJugar.addActionListener(listener);
-    }
-
-    public void addSalirListener(ActionListener listener) {
-        BotonSalir.addActionListener(listener);
-    }
-
-    public void addRegistarJuezListener(ActionListener listener) {
-        BotonJuez.addActionListener(listener);
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton BotonJuez;
     public javax.swing.JButton BotonJugar;
     public javax.swing.JButton BotonRegistrarEquipo;
-    private javax.swing.JButton BotonSalir;
+    public javax.swing.JButton BotonSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

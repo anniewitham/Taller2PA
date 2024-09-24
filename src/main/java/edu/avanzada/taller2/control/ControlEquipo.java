@@ -3,16 +3,24 @@ package edu.avanzada.taller2.control;
 import edu.avanzada.taller2.modelo.Capitan;
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Jugador;
+import edu.avanzada.taller2.vista.CrearEquipo2;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.awt.event.ActionListener;
 
 //Controlador
-public class ControlEquipo {
+public class ControlEquipo implements ActionListener{
 
     private Properties arcProp;
     private ArrayList<Equipo> equipos;
     private Equipo equipo;
+    private CrearEquipo2 vista;
+    
+    public ControlEquipo(){
+        
+    }
 
     public ControlEquipo(Properties arcProp) {
         this.arcProp = arcProp;
@@ -152,6 +160,19 @@ public boolean eliminarJugador(Jugador jugador) {
     
     public Capitan obtenerCapitan() {
         return equipo.getCapitan();
+    }
+    
+    public void crearVistaCrearEquipo(){
+        vista = new CrearEquipo2(this);
+        vista.BotonRegistrar.addActionListener(this);
+        vista.BotonSalir.addActionListener(this);
+        vista.BotonVolver.addActionListener(this);
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     
