@@ -13,8 +13,15 @@ public class RegistrarJuez extends javax.swing.JFrame {
      */
     public RegistrarJuez(ControlPrincipal aThis) {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+    
+    public void resetearCamposRegistrarJuez() {
+        NombreJuez.setText("");
+        CedulaJuez.setText("");
+        EdadJuez.setText("");
+        NumTajetaJuez.setText("");
     }
 
     /**
@@ -227,45 +234,10 @@ public class RegistrarJuez extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CedulaJuezActionPerformed
 
-    public void addSalirListener(ActionListener listener) {
-        BotonSalir.addActionListener(listener);
-    }
-
-    public void addVolverMenuListener(ActionListener listener) {
-        BotonVolver.addActionListener(listener);
-    }
-
-    public void addRegistarJuezListener(ActionListener listener) {
-        BotonRegistrarJuez.addActionListener(listener);
-    }
-
-    public JTextField cargarNombreJuez() {
-        return NombreJuez;
-    }
-
-    public JTextField cargarEdadJuez() {
-        return EdadJuez;
-    }
-
-    public JTextField cargarCedulaJuez() {
-        return CedulaJuez;
-    }
-
-    public JTextField cargarNumTajertaJuez() {
-        return NumTajetaJuez;
-    }
-
-    public void resetearCamposRegistrarJuez() {
-        NombreJuez.setText("");
-        CedulaJuez.setText("");
-        EdadJuez.setText("");
-        NumTajetaJuez.setText("");
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonRegistrarJuez;
-    private javax.swing.JButton BotonSalir;
-    private javax.swing.JButton BotonVolver;
+    public javax.swing.JButton BotonRegistrarJuez;
+    public javax.swing.JButton BotonSalir;
+    public javax.swing.JButton BotonVolver;
     private javax.swing.JTextField CedulaJuez;
     private javax.swing.JTextField EdadJuez;
     private javax.swing.JTextField NombreJuez;

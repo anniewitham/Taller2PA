@@ -1,6 +1,8 @@
 package edu.avanzada.taller2.vista;
 
-import edu.avanzada.taller2.control.ControlEquipo;
+import edu.avanzada.taller2.control.ControlPrincipal;
+import javax.swing.JTextField;
+
 
 /**
  *
@@ -8,16 +10,45 @@ import edu.avanzada.taller2.control.ControlEquipo;
  */
 public class CrearEquipo  extends javax.swing.JFrame {
 
-    private ControlEquipo control;
+    private ControlPrincipal control;
 
     /**
      * Creates new form CrearEquipo
      */
-    public CrearEquipo(ControlEquipo aThis) {
+    public CrearEquipo(ControlPrincipal aThis) {
         initComponents();
         control = aThis;
         //setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+    public void resetearCamposCrearEquipo() {
+        jTextNombreEquipo.setText("");
+
+        Nombre.setText("");
+        Cedula.setText("");
+        Edad.setText("");
+        AñosExp.setText("");
+
+        Nombre1.setText("");
+        Cedula1.setText("");
+        Edad1.setText("");
+
+        Nombre2.setText("");
+        Cedula2.setText("");
+        Edad2.setText("");
+
+        Nombre3.setText("");
+        Cedula3.setText("");
+        Edad3.setText("");
+
+        Nombre4.setText("");
+        Cedula4.setText("");
+        Edad4.setText("");
+
+        Nombre5.setText("");
+        Cedula5.setText("");
+        Edad5.setText("");
     }
 
     /**
@@ -684,6 +715,85 @@ public class CrearEquipo  extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Cedula5ActionPerformed
 
+    public JTextField cargarNombreEquipo() {
+        return jTextNombreEquipo;
+    }
+    public JTextField cargarNombre() {
+        return Nombre;
+    }
+
+    public JTextField cargarEdad() {
+        return Edad;
+    }
+
+    public JTextField cargarCedula() {
+        return Cedula;
+    }
+
+    public JTextField cargarAñosExp() {
+        return AñosExp;
+    }
+
+    public JTextField cargarNombre1() {
+        return Nombre1;
+    }
+
+    public JTextField cargarEdad1() {
+        return Edad1;
+    }
+
+    public JTextField cargarCedula1() {
+        return Cedula1;
+    }
+
+    public JTextField cargarNombre2() {
+        return Nombre2;
+    }
+
+    public JTextField cargarEdad2() {
+        return Edad2;
+    }
+
+    public JTextField cargarCedula2() {
+        return Cedula2;
+    }
+
+    public JTextField cargarNombre3() {
+        return Nombre3;
+    }
+
+    public JTextField cargarEdad3() {
+        return Edad3;
+    }
+
+    public JTextField cargarCedula3() {
+        return Cedula3;
+    }
+
+    public JTextField cargarNombre4() {
+        return Nombre4;
+    }
+
+    public JTextField cargarEdad4() {
+        return Edad4;
+    }
+
+    public JTextField cargarCedula4() {
+        return Cedula4;
+    }
+
+    public JTextField cargarNombre5() {
+        return Nombre5;
+    }
+
+    public JTextField cargarEdad5() {
+        return Edad5;
+    }
+
+    public JTextField cargarCedula5() {
+        return Cedula5;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AñosExp;
     public javax.swing.JButton BotonRegistrar;
