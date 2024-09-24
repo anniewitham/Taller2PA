@@ -31,24 +31,15 @@ public class Jugador extends Persona {
      * @param nombre El nombre del jugador.
      * @param edad La edad del jugador.
      */
-    public Jugador(String numeroPosicion, String cedula, String nombre, String edad) {
+    public Jugador( String cedula, String nombre, String edad) {
         super(cedula, nombre, edad);
-        this.numeroPosicion = numeroPosicion;
-    }
     
-    /**
-     * Constructor que inicializa el jugador con su número de posición, cédula,
-     * y nombre.
-     * 
-     * @param numeroPosicion
-     * @param cedula
-     * @param nombre 
-     */
-    public Jugador(String numeroPosicion, String cedula, String nombre) {
-        super(cedula, nombre);
-        this.numeroPosicion = numeroPosicion;
     }
 
+ 
+
+    
+    
     /**
      * Devuelve el número de posición del jugador.
      *

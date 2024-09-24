@@ -48,7 +48,8 @@ public class Inicio extends javax.swing.JFrame {
 
         BotonRegistrarEquipo.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         BotonRegistrarEquipo.setForeground(new java.awt.Color(102, 102, 102));
-        BotonRegistrarEquipo.setText("Resgistrar Equipo");
+        BotonRegistrarEquipo.setText("Registrar Equipo");
+        BotonRegistrarEquipo.setBorder(null);
         BotonRegistrarEquipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonRegistrarEquipoActionPerformed(evt);
@@ -58,6 +59,7 @@ public class Inicio extends javax.swing.JFrame {
         BotonJugar.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         BotonJugar.setForeground(new java.awt.Color(102, 102, 102));
         BotonJugar.setText("Jugar");
+        BotonJugar.setBorder(null);
         BotonJugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonJugarActionPerformed(evt);
@@ -74,7 +76,8 @@ public class Inicio extends javax.swing.JFrame {
 
         BotonJuez.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         BotonJuez.setForeground(new java.awt.Color(102, 102, 102));
-        BotonJuez.setText("Resgistrar Juez");
+        BotonJuez.setText("Registrar Juez");
+        BotonJuez.setBorder(null);
         BotonJuez.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonJuezActionPerformed(evt);

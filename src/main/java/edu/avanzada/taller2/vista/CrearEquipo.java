@@ -94,6 +94,7 @@ public class CrearEquipo extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         Equipo.setBackground(new java.awt.Color(153, 153, 255));
 
@@ -104,6 +105,7 @@ public class CrearEquipo extends javax.swing.JFrame {
         BotonSalir.setBorder(null);
 
         BotonVolver.setText("Volver");
+        BotonVolver.setBorder(null);
         BotonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonVolverActionPerformed(evt);
@@ -111,6 +113,7 @@ public class CrearEquipo extends javax.swing.JFrame {
         });
 
         BotonRegistrar.setText("Registrar");
+        BotonRegistrar.setBorder(null);
         BotonRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonRegistrarActionPerformed(evt);
@@ -140,14 +143,14 @@ public class CrearEquipo extends javax.swing.JFrame {
                         .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(NombreEquipoLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addComponent(BotonVolver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                        .addComponent(BotonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel27)
-                        .addGap(18, 18, 18)
-                        .addComponent(BotonRegistrar)))
+                        .addGap(29, 29, 29)
+                        .addComponent(BotonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 70, Short.MAX_VALUE)
                 .addGroup(NombreEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
                         .addComponent(jLabel26)
@@ -177,7 +180,7 @@ public class CrearEquipo extends javax.swing.JFrame {
                                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                                .addComponent(BotonRegistrar)
+                                .addComponent(BotonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18))))))
         );
 
