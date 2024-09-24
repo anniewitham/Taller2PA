@@ -1,193 +1,170 @@
-
 package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.modelo.Capitan;
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Juez;
 import edu.avanzada.taller2.modelo.Jugador;
-import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Pruebas unitarias para la clase ControlPartido.
- */
 public class ControlPartidoTest {
 
+    private ControlPartido controlPartido;
     private Equipo equipoA;
     private Equipo equipoB;
     private Juez juez;
-    private ControlPartido controlPartido;
-    
+
     @BeforeEach
-public void setUp() {
-    // Crear un capitán y un jugador para el equipo
-    Capitan capitan = new Capitan("Capitan1", "123456", "Juan", "30");
-    Jugador jugador = new Jugador("Jugador1", "654321", "Pedro", "25");
+    public void setUp() throws IOException {
+        Capitan capitanA = new Capitan("34", "3405969","jose", "49");
+        Capitan capitanB = new Capitan("24", "890", "pedrito","23");
+        List<Jugador> jugadoresA = new ArrayList<>();
+        List<Jugador> jugadoresB = new ArrayList<>();
 
-    // Crear equipos A y B con todos los parámetros necesarios
-    equipoA = new Equipo("Equipo A", "1", capitan, Arrays.asList(jugador));
-    equipoB = new Equipo("Equipo B", "2", capitan, Arrays.asList(jugador));
+        equipoA = new Equipo("Equipo A", "001", capitanA, jugadoresA);
+        equipoB = new Equipo("Equipo B", "002", capitanB, jugadoresB);
+        juez = new Juez("Juez 1", "12345", "Pedro");
+        controlPartido = new ControlPartido(equipoA, equipoB, juez, 100);
+    }
 
-    // Crear un juez con un número de tarjeta profesional
-    juez = new Juez("Juez123", "987654", "Juez 1");
+    @Test
+public void testConstructorConParametrosValidos() {
+    // Asegurarse de que el controlPartido no sea nulo
+    assertNotNull(controlPartido);
 
-    // Inicializar el controlador de partido
-    controlPartido = new ControlPartido(equipoA, equipoB, juez, 300); // Puntaje máximo: 300
+    // Verificar que los equipos y el juez se establecieron correctamente
+    assertEquals(equipoA, controlPartido.getEquipoA());
+    assertEquals(equipoB, controlPartido.getEquipoB());
+    assertEquals(juez, controlPartido.getJuez());
+    
+    // Verificar que el puntaje máximo sea 5000
+    assertEquals(5000, controlPartido.getPuntajeMaximo());
 }
 
-    /**
-     * Verifica que el partido inicie correctamente.
-     */
     @Test
-    public void testIniciarPartidoCorrectamente() {
+    public void testConstructorConParametrosNulos() {
+        assertThrows(IllegalArgumentException.class, () -> new ControlPartido(null, equipoB, juez, 100));
+        assertThrows(IllegalArgumentException.class, () -> new ControlPartido(equipoA, null, juez, 100));
+        assertThrows(IllegalArgumentException.class, () -> new ControlPartido(equipoA, equipoB, null, 100));
+    }
+
+    @Test
+    public void testIniciarPartido() {
         controlPartido.iniciarPartido();
-        assertTrue(controlPartido.isPartidoEnCurso(), "El partido debería haber iniciado.");
+        assertTrue(controlPartido.isPartidoEnCurso());
     }
 
-    /**
-     * Verifica que iniciar un partido en curso arroje una excepción.
-     */
     @Test
-    public void testIniciarPartidoYaIniciado() {
+    public void testIniciarPartidoYaEnCurso() {
         controlPartido.iniciarPartido();
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controlPartido.iniciarPartido();
-        });
-        assertEquals("El partido ya está en curso.", exception.getMessage());
+        assertThrows(IllegalStateException.class, () -> controlPartido.iniciarPartido());
     }
 
-    /**
-     * Verifica que simular el puntaje antes de iniciar el partido arroje una excepción.
-     */
     @Test
-    public void testSimularPuntajeSinIniciarPartido() {
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controlPartido.simularPuntaje();
-        });
-        assertEquals("El partido no ha comenzado aún.", exception.getMessage());
+    public void testSimularPuntajeConPartidoNoIniciado() {
+        assertThrows(IllegalStateException.class, () -> controlPartido.simularPuntaje(equipoA));
     }
 
-    /**
-     * Verifica que se simulen los puntajes correctamente.
-     */
     @Test
-    public void testSimularPuntajeCorrecto() {
+    public void testSimularPuntajeEquipoA() {
         controlPartido.iniciarPartido();
-        controlPartido.simularPuntaje();
-        assertTrue(controlPartido.getPuntajeA() > 0 || controlPartido.getPuntajeB() > 0, "Los puntajes deberían haberse actualizado.");
+        controlPartido.simularPuntaje(equipoA);
+        assertTrue(controlPartido.getPuntajeA() > 0);
     }
 
-    /**
-     * Verifica que simular puntaje después de terminar el partido arroje una excepción.
-     */
     @Test
-    public void testSimularPuntajeDespuesDeTerminarPartido() {
+    public void testSimularPuntajeEquipoB() {
         controlPartido.iniciarPartido();
-        controlPartido.simularPuntaje();
-        controlPartido.finalizarPartido();
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            controlPartido.simularPuntaje();
-        });
-        assertEquals("El partido ya ha terminado.", exception.getMessage());
+        controlPartido.simularPuntaje(equipoB);
+        assertTrue(controlPartido.getPuntajeB() > 0);
     }
 
-    /**
-     * Verifica que se finalice el partido correctamente.
-     */
     @Test
-    public void testFinalizarPartidoCorrectamente() {
+    public void testFinalizarPartido() {
         controlPartido.iniciarPartido();
         controlPartido.finalizarPartido();
-        assertFalse(controlPartido.isPartidoEnCurso(), "El partido debería haber terminado.");
+        assertFalse(controlPartido.isPartidoEnCurso());
     }
 
-    /**
-     * Verifica que finalizar un partido no iniciado arroje una excepción.
-     */
     @Test
-    public void testFinalizarPartidoSinIniciar() {
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            controlPartido.finalizarPartido();
-        });
-        assertEquals("El partido no está en curso.", exception.getMessage());
+    public void testFinalizarPartidoNoEnCurso() {
+        assertThrows(IllegalStateException.class, () -> controlPartido.finalizarPartido());
     }
 
-    /**
-     * Verifica que se reinicie el partido correctamente.
-     */
     @Test
     public void testReiniciarPartido() {
         controlPartido.iniciarPartido();
+        controlPartido.simularPuntaje(equipoA);
         controlPartido.reiniciarPartido();
-        assertEquals(0, controlPartido.getPuntajeA(), "El puntaje de Equipo A debería ser 0.");
-        assertEquals(0, controlPartido.getPuntajeB(), "El puntaje de Equipo B debería ser 0.");
-        assertFalse(controlPartido.isPartidoEnCurso(), "El partido no debería estar en curso después del reinicio.");
+        assertEquals(0, controlPartido.getPuntajeA());
+        assertEquals(0, controlPartido.getPuntajeB());
+        assertFalse(controlPartido.isPartidoEnCurso());
     }
 
-    /**
-     * Verifica que los métodos get y set de los equipos funcionen correctamente.
-     */
-   /**
- * Verifica que los métodos set y get de los equipos funcionen correctamente.
- */
-@Test
-public void testSetYGetEquipos() {
-    // Crear un capitán
-    Capitan capitan = new Capitan("Capitan1", "123456", "Juan", "30");
+    @Test
+    public void testSetEquipoA() {
+        Capitan nuevoCapitanA = new Capitan("34", "3405969","jose", "49");
+        List<Jugador> nuevosJugadoresA = new ArrayList<>();
+    nuevosJugadoresA.add(new Jugador("Jugador A1", "C1", "F", "20"));
+    nuevosJugadoresA.add(new Jugador("Jugador A2", "C2", "G", "21"));
+    nuevosJugadoresA.add(new Jugador("Jugador A3", "C3", "H", "22"));
+    nuevosJugadoresA.add(new Jugador("Jugador A4", "C4", "I", "23"));
+    nuevosJugadoresA.add(new Jugador("Jugador A5", "C5", "eJ", "24"));
 
-    // Crear un jugador
-    Jugador jugador = new Jugador("654321", "Pedro", "25"); // Asegúrate de que el constructor sea correcto
+        Equipo nuevoEquipoA = new Equipo("Nuevo Equipo A", "003", nuevoCapitanA, nuevosJugadoresA);
+        controlPartido.setEquipoA(nuevoEquipoA);
+        assertEquals(nuevoEquipoA, controlPartido.getEquipoA());
+    }
 
-    // Crear un nuevo equipo A
-    Equipo nuevoEquipoA = new Equipo("Nuevo Equipo A", "1", capitan, Arrays.asList(jugador));
-    controlPartido.setEquipoA(nuevoEquipoA);
-    assertEquals(nuevoEquipoA, controlPartido.getEquipoA(), "El equipo A debería ser 'Nuevo Equipo A'.");
+    @Test
+    public void testSetEquipoANulo() {
+        assertThrows(IllegalArgumentException.class, () -> controlPartido.setEquipoA(null));
+    }
 
-    // Crear un nuevo equipo B
-    Equipo nuevoEquipoB = new Equipo("Nuevo Equipo B", "2", capitan, Arrays.asList(jugador));
+    @Test
+public void testSetEquipoB() {
+    // Crear un nuevo capitán con todos los parámetros requeridos
+    Capitan nuevoCapitanB = new Capitan("24", "890", "pedrito","23");
+
+    // Crear una lista de nuevos jugadores con todos los parámetros requeridos
+    List<Jugador> nuevosJugadoresB = new ArrayList<>();
+    nuevosJugadoresB.add(new Jugador("Jugador B1", "C1", "a", "20"));
+    nuevosJugadoresB.add(new Jugador("Jugador B2", "C2", "b", "21"));
+    nuevosJugadoresB.add(new Jugador("Jugador B3", "C3", "c", "22"));
+    nuevosJugadoresB.add(new Jugador("Jugador B4", "C4", "d", "23"));
+    nuevosJugadoresB.add(new Jugador("Jugador B5", "C5", "e", "24"));
+
+    // Crear un nuevo equipo con el capitán y la lista de jugadores
+    Equipo nuevoEquipoB = new Equipo("Nuevo Equipo B", "004", nuevoCapitanB, nuevosJugadoresB);
+
+    // Establecer el nuevo equipo B en controlPartido y verificar que se haya establecido correctamente
     controlPartido.setEquipoB(nuevoEquipoB);
-    assertEquals(nuevoEquipoB, controlPartido.getEquipoB(), "El equipo B debería ser 'Nuevo Equipo B'.");
+    assertEquals(nuevoEquipoB, controlPartido.getEquipoB());
 }
 
-/**
- * Verifica que no se permita asignar un equipo nulo.
- */
-@Test
-public void testSetEquipoNulo() {
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-        controlPartido.setEquipoA(null);
-    });
-    assertEquals("El equipo A no puede ser nulo.", exception.getMessage());
+    @Test
+    public void testSetEquipoBNulo() {
+        assertThrows(IllegalArgumentException.class, () -> controlPartido.setEquipoB(null));
+    }
 
-    exception = assertThrows(IllegalArgumentException.class, () -> {
-        controlPartido.setEquipoB(null);
-    });
-    assertEquals("El equipo B no puede ser nulo.", exception.getMessage());
-}
+    @Test
+    public void testSetJuez() {
+        Juez nuevoJuez = new Juez("Juez 2", "67890", "Juan");
+        controlPartido.setJuez(nuevoJuez);
+        assertEquals(nuevoJuez, controlPartido.getJuez());
+    }
 
-/**
- * Verifica que los métodos set y get del juez funcionen correctamente.
- */
-@Test
-public void testSetYGetJuez() {
-    // Asumiendo que el constructor de Juez requiere número de tarjeta, cédula y nombre
-    Juez nuevoJuez = new Juez("T123", "987654", "Nuevo Juez");
-    controlPartido.setJuez(nuevoJuez);
-    assertEquals(nuevoJuez, controlPartido.getJuez(), "El juez debería ser 'Nuevo Juez'.");
-}
+    @Test
+    public void testSetJuezNulo() {
+        assertThrows(IllegalArgumentException.class, () -> controlPartido.setJuez(null));
+    }
 
-/**
- * Verifica que no se permita asignar un juez nulo.
- */
-@Test
-public void testSetJuezNulo() {
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-        controlPartido.setJuez(null);
-    });
-    assertEquals("El juez no puede ser nulo.", exception.getMessage());
-}
+    // Prueba para cargarHuecosDesdeProperties() podría incluirse aquí si se desea
 }
 

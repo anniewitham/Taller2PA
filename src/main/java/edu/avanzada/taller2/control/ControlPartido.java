@@ -2,6 +2,9 @@ package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Juez;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 public class ControlPartido {
@@ -12,8 +15,9 @@ public class ControlPartido {
     private int puntajeA;
     private int puntajeB;
     private boolean partidoEnCurso;
-    private Random random = new Random(); // Para generar puntajes aleatorios
+    private Random random = new Random();
     private int puntajeMaximo; // Puntaje máximo para ganar
+    private int[] huecos = new int[10]; // Atributos para los huecos del tablero
 
     /**
      * Constructor que inicializa el partido con dos equipos y un juez.
@@ -24,7 +28,7 @@ public class ControlPartido {
      * @param puntajeMaximo El puntaje máximo para ganar el partido.
      * @throws IllegalArgumentException si alguno de los parámetros es nulo.
      */
-    public ControlPartido(Equipo equipoA, Equipo equipoB, Juez juez, int puntajeMaximo) {
+    public ControlPartido(Equipo equipoA, Equipo equipoB, Juez juez, int puntajeMaximo) throws IOException {
         if (equipoA == null || equipoB == null || juez == null) {
             throw new IllegalArgumentException("Equipo A, equipo B y juez no pueden ser nulos.");
         }
@@ -35,6 +39,32 @@ public class ControlPartido {
         this.puntajeA = 0;
         this.puntajeB = 0;
         this.partidoEnCurso = false;
+        
+        // Cargar valores de los huecos desde el archivo properties
+        cargarHuecosDesdeProperties();
+    }
+
+    /**
+     * Método para cargar los valores de los huecos desde un archivo properties.
+     */
+    private void cargarHuecosDesdeProperties() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream input = new FileInputStream("config.properties");
+        properties.load(input);
+
+        // Asignar los valores a los huecos
+        huecos[0] = Integer.parseInt(properties.getProperty("orificio1", "20"));
+        huecos[1] = Integer.parseInt(properties.getProperty("orificio2", "20"));
+        huecos[2] = Integer.parseInt(properties.getProperty("orificio3", "30"));
+        huecos[3] = Integer.parseInt(properties.getProperty("orificio4", "30"));
+        huecos[4] = Integer.parseInt(properties.getProperty("orificio5", "40"));
+        huecos[5] = Integer.parseInt(properties.getProperty("orificio6", "40"));
+        huecos[6] = Integer.parseInt(properties.getProperty("orificio7", "150"));
+        huecos[7] = Integer.parseInt(properties.getProperty("orificio8", "150"));
+        huecos[8] = Integer.parseInt(properties.getProperty("orificio9", "200"));
+        huecos[9] = Integer.parseInt(properties.getProperty("orificio10", "300"));
+
+        input.close();
     }
 
     /**
@@ -50,47 +80,33 @@ public class ControlPartido {
     }
 
     /**
-     * Simula la asignación de puntajes aleatorios entre 50 y 150 para los dos equipos.
+     * Simula la asignación de puntajes para el equipo que está lanzando.
+     *
+     * @param equipoQueLanza El equipo que está lanzando (equipo A o equipo B).
      */
-   public void simularPuntaje() throws IllegalStateException, IllegalArgumentException {
-    // Verifica si el partido ha comenzado
-    if (!partidoEnCurso) {
-        throw new IllegalStateException("El partido no ha comenzado aún.");
+    public void simularPuntaje(Equipo equipoQueLanza) throws IllegalStateException, IllegalArgumentException {
+        if (!partidoEnCurso) {
+            throw new IllegalStateException("El partido no ha comenzado aún.");
+        }
+
+        // Seleccionar un hueco al azar y obtener su valor
+        int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
+        int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
+
+        // Sumamos el puntaje al equipo que lanza
+        if (equipoQueLanza.equals(equipoA)) {
+            puntajeA += puntajeObtenido;
+            System.out.println("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeA + " puntos.");
+        } else if (equipoQueLanza.equals(equipoB)) {
+            puntajeB += puntajeObtenido;
+            System.out.println("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeB + " puntos.");
+        }
+
+        // Verificar si alguno de los equipos ha alcanzado el puntaje máximo
+        if (puntajeA >= puntajeMaximo || puntajeB >= puntajeMaximo) {
+            finalizarPartido();
+        }
     }
-
-    // Verifica si el partido ya ha terminado
-    if (puntajeA >= puntajeMaximo || puntajeB >= puntajeMaximo) {
-        throw new IllegalArgumentException("El partido ya ha terminado.");
-    }
-
-    // Probabilidades basadas en 1/8 y 5/8
-    int resultado = random.nextInt(8); // Genera un número entre 0 y 7
-    int puntajeEquipoA;
-    int puntajeEquipoB;
-
-    if (resultado < 3) {
-        // Probabilidad 1/8 para tres de los orificios
-        puntajeEquipoA = 150;
-        puntajeEquipoB = 150;
-    } else {
-        // Probabilidad 5/8 para el otro orificio
-        puntajeEquipoA = random.nextInt(71) + 30; // Puntaje entre 30 y 100
-        puntajeEquipoB = random.nextInt(71) + 30; // Puntaje entre 30 y 100
-    }
-
-    // Actualizamos los puntajes
-    puntajeA += puntajeEquipoA;
-    puntajeB += puntajeEquipoB;
-
-    System.out.println("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeA + " puntos.");
-    System.out.println("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeB + " puntos.");
-
-    // Verificar si alguno de los equipos ha alcanzado el puntaje máximo
-    if (puntajeA >= puntajeMaximo || puntajeB >= puntajeMaximo) {
-        finalizarPartido();
-    }
-}
-
 
     /**
      * Finaliza el partido y determina el equipo ganador, o si hubo un empate.
@@ -122,7 +138,7 @@ public class ControlPartido {
         System.out.println("El partido ha sido reiniciado.");
     }
 
-    // Getters y Setters para acceder a los atributos de la clase
+    // Getters y Setters
 
     public Equipo getEquipoA() {
         return equipoA;
@@ -168,5 +184,11 @@ public class ControlPartido {
     public boolean isPartidoEnCurso() {
         return partidoEnCurso;
     }
+
+    public int getPuntajeMaximo() {
+        return puntajeMaximo;
+    }
+    
+    
 }
 
