@@ -13,25 +13,18 @@ public class ControlPartido {
     private int puntajeB;
     private boolean partidoEnCurso;
     private Random random;
-    private int[] huecos; // Atributos para los huecos del tablero
+    private int[] huecos;
     private Juez juez;
     private int puntajeMaximo;
     private ArrayList<Equipo> equipos;
     private String nombreA;
     private String nombreB;
-    
+    private int turno;
+    private int jugadorTurno;
+
     private ControlProperties properties;
     private ControlPrincipal control;
-    private ControlEquipo controlEquipo;
 
-    /**
-     * Constructor que inicializa el partido con dos equipos y un juez.
-     *
-     * @param equipoA El equipo A.
-     * @param equipoB El equipo B.
-     * @param control El controlador principal.
-     * @throws IllegalArgumentException si alguno de los parámetros es nulo.
-     */
     public ControlPartido(Equipo equipoA, Equipo equipoB, ControlPrincipal control) throws IOException {
         if (equipoA == null || equipoB == null) {
             control.getVentanaEmergente().ventanaError("¡No se puede iniciar el juego sin ambos equipos!");
@@ -40,9 +33,7 @@ public class ControlPartido {
 
         this.properties = new ControlProperties();
         this.control = control;
-        this.controlEquipo = new ControlEquipo(control);
-        
-        this.equipos = controlEquipo.getEquipos();
+
         this.equipoA = equipoA;
         this.equipoB = equipoB;
         this.nombreA = equipoA.getNombreEquipo();
@@ -53,28 +44,24 @@ public class ControlPartido {
         this.random = new Random();
         this.huecos = new int[10];
         this.puntajeMaximo = properties.obtenerPuntajeMaximo("puntuacion.maxima", "0");
-        
+        this.turno = 1;
+        this.jugadorTurno = 1;
+
         cargarValores();
     }
 
-    /**
-     * Método para cargar los valores de los huecos desde un archivo properties.
-     */
     private void cargarValores() throws IOException {
-        for(int i=0; i<huecos.length; i++){
+        for (int i = 0; i < huecos.length; i++) {
             String clave = "orificio.hueco" + (i + 1);
             huecos[i] = properties.obtenerValorHueco(clave, "0");
         }
     }
 
-    /**
-     * Inicia la simulación del partido.
-     */
     public void iniciarPartido() throws IOException {
         if (partidoEnCurso) {
             throw new IllegalStateException("El partido ya está en curso.");
         }
-        
+
         control.getVistaInicio().dispose();
         control.getVistaJuego().setVisible(true);
         partidoEnCurso = true;
@@ -82,12 +69,81 @@ public class ControlPartido {
         control.getVentanaEmergente().ventanaPlana("¡Ha comenzado el partido entre " + nombreA + " y " + nombreB + "!");
     }
 
-    /**
-     * Simula la asignación de puntajes para el equipo que está lanzando.
-     *
-     * @param equipoQueLanza El equipo que está lanzando (equipo A o equipo B).
-     */
-    public void simularPuntaje(Equipo equipoQueLanza) throws IllegalStateException, IllegalArgumentException {
+    public void reiniciarPartido() {
+        puntajeA = 0;
+        puntajeB = 0;
+    }
+
+    public void jugarTurno() {
+        // Verificar si el partido ha comenzado
+        if (!partidoEnCurso) {
+            control.getVentanaEmergente().ventanaError("El partido no ha comenzado aún. Inicie el partido antes de jugar.");
+            return; // Salir si el partido no ha comenzado
+        }
+
+        // Verificar si el jugador está detrás de la línea de juego
+        if (!jugadorDetrasDeLineaDeJuego()) {
+            control.getVentanaEmergente().ventanaError("El jugador debe estar detrás de la línea de juego para lanzar.");
+            return; // Salir si no está detrás de la línea
+        }
+
+        // Verificar si el número de jugador es válido
+        if (jugadorTurno < 1 || jugadorTurno > 5) {
+            control.getVentanaEmergente().ventanaError("Número de jugador no válido: " + jugadorTurno);
+            return;
+        }
+
+        turnoJugador(jugadorTurno);
+        simularPuntaje();
+    }
+
+    private boolean jugadorDetrasDeLineaDeJuego() {
+        return control.getVistaJuego().getjRadioButton1().isSelected();
+    }
+
+    public void turnoJugador(int jugador) {
+        switch (turno) {
+            case 1:
+                // Verificar si el equipo A tiene jugadores
+                if (equipoA.getJugadores() == null || equipoA.getJugadores().isEmpty()) {
+                    control.getVentanaEmergente().ventanaError("El equipo A no tiene jugadores.");
+                    return;
+                }
+
+                // Validar que el índice del jugador sea válido para el equipo A
+                if (jugador < 1 || jugador > equipoA.getJugadores().size()) {
+                    control.getVentanaEmergente().ventanaError("El índice del jugador es inválido para el equipo A.");
+                    return;
+                }
+
+                // Obtener el nombre del jugador del equipo A
+                control.getVentanaEmergente().ventanaPlana("Es el turno del jugador " + equipoA.getJugadores().get(jugador - 1).getNombre() + " del equipo " + nombreA);
+                break;
+
+            case 2:
+                // Verificar si el equipo B tiene jugadores
+                if (equipoB.getJugadores() == null || equipoB.getJugadores().isEmpty()) {
+                    control.getVentanaEmergente().ventanaError("El equipo B no tiene jugadores.");
+                    return;
+                }
+
+                // Validar que el índice del jugador sea válido para el equipo B
+                if (jugador < 1 || jugador > equipoB.getJugadores().size()) {
+                    control.getVentanaEmergente().ventanaError("El índice del jugador es inválido para el equipo B.");
+                    return;
+                }
+
+                // Obtener el nombre del jugador del equipo B
+                control.getVentanaEmergente().ventanaPlana("Es el turno del jugador " + equipoB.getJugadores().get(jugador - 1).getNombre() + " del equipo " + nombreB);
+                break;
+
+            default:
+                control.getVentanaEmergente().ventanaError("Turno no válido.");
+                break;
+        }
+    }
+
+    public void simularPuntaje() throws IllegalStateException, IllegalArgumentException {
         if (!partidoEnCurso) {
             throw new IllegalStateException("El partido no ha comenzado aún.");
         }
@@ -96,13 +152,17 @@ public class ControlPartido {
         int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
         int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
 
-        // Sumamos el puntaje al equipo que lanza
-        if (equipoQueLanza.equals(equipoA)) {
-            puntajeA += puntajeObtenido;
-            control.getVentanaEmergente().ventanaPlana("Equipo A (" + nombreA + ") ha anotado: " + puntajeObtenido + " puntos.");
-        } else if (equipoQueLanza.equals(equipoB)) {
-            puntajeB += puntajeObtenido;
-            control.getVentanaEmergente().ventanaPlana("Equipo B (" + nombreB + ") ha anotado: " + puntajeObtenido + " puntos.");
+        switch (turno) {
+            case 1:
+                puntajeA += puntajeObtenido;
+                control.getVentanaEmergente().ventanaPlana("El equipo " + nombreA + " ha anotado: " + puntajeObtenido + " puntos.");
+                turno = 2; // Cambiar el turno
+                break;
+            case 2:
+                puntajeB += puntajeObtenido;
+                control.getVentanaEmergente().ventanaPlana("El equipo " + nombreB + " ha anotado: " + puntajeObtenido + " puntos.");
+                turno = 1; // Cambiar el turno
+                break;
         }
 
         // Verificar si alguno de los equipos ha alcanzado el puntaje máximo
@@ -111,9 +171,6 @@ public class ControlPartido {
         }
     }
 
-    /**
-     * Finaliza el partido y determina el equipo ganador, o si hubo un empate.
-     */
     public void finalizarPartido() {
         if (!partidoEnCurso) {
             throw new IllegalStateException("El partido no está en curso.");
@@ -121,15 +178,6 @@ public class ControlPartido {
 
         partidoEnCurso = false;
         control.getVentanaEmergente().ventanaPlana("¡El partido ha llegado a su fin!");
-    }
-
-    /**
-     * Reinicia el partido, restableciendo los puntajes a 0.
-     */
-    public void reiniciarPartido() {
-        puntajeA = 0;
-        puntajeB = 0;
-        partidoEnCurso = false;
     }
 
     // Getters y Setters

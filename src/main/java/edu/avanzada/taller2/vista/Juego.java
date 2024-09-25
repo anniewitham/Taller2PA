@@ -29,7 +29,7 @@ public class Juego extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        BotonLanzarTejo = new javax.swing.JButton();
+        BotonLanzarBola = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel26 = new javax.swing.JLabel();
         BotonSalir = new javax.swing.JButton();
@@ -58,16 +58,16 @@ public class Juego extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setLayout(null);
 
-        BotonLanzarTejo.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        BotonLanzarTejo.setText("Lanzar Tejo");
-        BotonLanzarTejo.setBorder(null);
-        BotonLanzarTejo.addActionListener(new java.awt.event.ActionListener() {
+        BotonLanzarBola.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        BotonLanzarBola.setText("Lanzar");
+        BotonLanzarBola.setBorder(null);
+        BotonLanzarBola.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonLanzarTejoActionPerformed(evt);
+                BotonLanzarBolaActionPerformed(evt);
             }
         });
-        jPanel1.add(BotonLanzarTejo);
-        BotonLanzarTejo.setBounds(114, 186, 68, 15);
+        jPanel1.add(BotonLanzarBola);
+        BotonLanzarBola.setBounds(150, 190, 38, 15);
 
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,12 +185,12 @@ public class Juego extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void BotonLanzarTejoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLanzarTejoActionPerformed
+    private void BotonLanzarBolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonLanzarBolaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonLanzarTejoActionPerformed
+    }//GEN-LAST:event_BotonLanzarBolaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton BotonLanzarTejo;
+    public javax.swing.JButton BotonLanzarBola;
     public javax.swing.JButton BotonSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

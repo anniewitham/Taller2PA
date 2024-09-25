@@ -37,7 +37,7 @@ public class ControlPrincipal implements ActionListener {
 
         vistaJuego = new Juego(this);
         vistaJuego.BotonSalir.addActionListener(this);
-        vistaJuego.BotonLanzarTejo.addActionListener(this);
+        vistaJuego.BotonLanzarBola.addActionListener(this);
         vistaJuego.jRadioButton1.addActionListener(this);
     }
 
@@ -78,6 +78,8 @@ public class ControlPrincipal implements ActionListener {
                     ventanaEmergente.ventanaError("Error al iniciar el partido.");
                 }
                 break;
+            case "Lanzar":
+                controlPartido.jugarTurno();
             default:
                 break;
         }
