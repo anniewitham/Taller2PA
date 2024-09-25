@@ -17,6 +17,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Clase de prueba para el controlador principal del juego.
+ * Esta clase verifica el correcto funcionamiento de las acciones del controlador
+ * y la interacción con las vistas.
+ */
 public class ControlPrincipalTest {
 
     protected ControlPrincipal controlPrincipal; // Controlador principal a probar
@@ -25,6 +30,12 @@ public class ControlPrincipalTest {
     protected Juego vistaJuego; // Vista de juego mockeada
     protected VentanasEmergentes ventanaEmergente; // Ventana emergente mockeada
 
+    /**
+     * Configura el entorno de prueba antes de cada método de prueba.
+     * Inicializa los mocks de las vistas y crea una instancia del controlador.
+     * 
+     * @throws IOException si ocurre un error durante la inicialización.
+     */
     @BeforeEach
     public void setUp() throws IOException {
         // Inicializa los mocks de las vistas
@@ -44,110 +55,135 @@ public class ControlPrincipalTest {
         };
     }
 
+    /**
+     * Limpia el entorno de prueba después de cada método de prueba.
+     */
     @AfterEach
     public void tearDown() {
         // Restablece el control principal a null después de cada prueba
         controlPrincipal = null;
     }
 
+    /**
+     * Prueba el evento de acción para salir.
+     * Verifica que el evento de salir no lanza excepciones.
+     */
     @Test
     public void testActionPerformedSalir() {
-        // Prueba que el evento de salir no lanza excepciones
         ActionEvent e = new ActionEvent(new Object(), 0, "Salir");
         assertDoesNotThrow(() -> controlPrincipal.actionPerformed(e));
     }
 
+    /**
+     * Prueba el evento de acción para volver a la vista de inicio.
+     * Verifica que se cierren los campos de la vista de crear equipo
+     * y que la vista de inicio sea visible.
+     */
     @Test
     public void testActionPerformedVolver() {
-        // Prepara el mock para verificar la lógica al volver
         when(vistaCrearEquipo.isVisible()).thenReturn(true);
         ActionEvent e = new ActionEvent(new Object(), 0, "Volver");
         controlPrincipal.actionPerformed(e);
         
-        // Verifica que se llamen los métodos esperados en las vistas
         verify(vistaCrearEquipo).dispose(); // Se debe cerrar la vista de crear equipo
         verify(vistaCrearEquipo).resetearCamposCrearEquipo(); // Se deben resetear los campos
         verify(vistaInicio).setVisible(true); // La vista de inicio debe ser visible
     }
 
+    /**
+     * Prueba el evento de acción para registrar un equipo.
+     * Verifica que se cierre la vista de inicio y que se abra la vista de crear equipo.
+     */
     @Test
     public void testActionPerformedRegistrarEquipo() {
-        // Prepara el mock para verificar la lógica al registrar un equipo
         when(vistaInicio.isVisible()).thenReturn(true);
         ActionEvent e = new ActionEvent(new Object(), 0, "Registrar Equipo");
         controlPrincipal.actionPerformed(e);
         
-        // Verifica que se llamen los métodos esperados en las vistas
         verify(vistaInicio).dispose(); // Se debe cerrar la vista de inicio
         verify(vistaCrearEquipo).setVisible(true); // La vista de crear equipo debe ser visible
     }
 
+    /**
+     * Prueba el evento de acción para registrar un equipo.
+     * Verifica que se llame al método de crear equipo y se cierren las vistas correspondientes.
+     */
     @Test
     public void testActionPerformedRegistrar() {
-        // Prueba el evento de registrar un equipo
         ActionEvent e = new ActionEvent(new Object(), 0, "Registrar");
         controlPrincipal.actionPerformed(e);
         
-        // Verifica que se llame al método de crear equipo y a la vista
         verify(controlPrincipal.controlEquipo).crearEquipo(); // Se debe llamar a crearEquipo
         verify(vistaCrearEquipo).dispose(); // Se debe cerrar la vista de crear equipo
         verify(vistaInicio).setVisible(true); // La vista de inicio debe ser visible
     }
 
-  @Test
-public void testActionPerformedJugar() throws IOException {
-    // Prepara el entorno para el juego
-    List<Jugador> jugadoresA = new ArrayList<>(); // Lista de jugadores para el equipo A
-    List<Jugador> jugadoresB = new ArrayList<>(); // Lista de jugadores para el equipo B
+    /**
+     * Prueba el evento de acción para iniciar un juego.
+     * Verifica que las vistas se configuren correctamente y que se inicie el partido.
+     * 
+     * @throws IOException si ocurre un error durante la inicialización.
+     */
+    @Test
+    public void testActionPerformedJugar() throws IOException {
+        // Prepara el entorno para el juego
+        List<Jugador> jugadoresA = new ArrayList<>(); // Lista de jugadores para el equipo A
+        List<Jugador> jugadoresB = new ArrayList<>(); // Lista de jugadores para el equipo B
 
-    // Agrega algunos jugadores mockeados a cada equipo (asegúrate de tener la clase Jugador y su constructor)
-    jugadoresA.add(mock(Jugador.class)); // Agrega un jugador mockeado
-    jugadoresB.add(mock(Jugador.class)); // Agrega otro jugador mockeado
+        jugadoresA.add(mock(Jugador.class)); // Agrega un jugador mockeado
+        jugadoresB.add(mock(Jugador.class)); // Agrega otro jugador mockeado
 
-    // Crea un capitán mockeado para cada equipo
-    Capitan capitanA = mock(Capitan.class);
-    Capitan capitanB = mock(Capitan.class);
+        Capitan capitanA = mock(Capitan.class);
+        Capitan capitanB = mock(Capitan.class);
 
-    // Inicializa el control de equipo y agrega los equipos
-    when(controlPrincipal.controlEquipo.getEquipos()).thenReturn(new ArrayList<>()); // Asegúrate de tener al menos 2 equipos
-    controlPrincipal.controlEquipo.getEquipos().add(new Equipo("Equipo A", "1", capitanA, jugadoresA)); // Agrega el equipo A
-    controlPrincipal.controlEquipo.getEquipos().add(new Equipo("Equipo B", "2", capitanB, jugadoresB)); // Agrega el equipo B
+        when(controlPrincipal.controlEquipo.getEquipos()).thenReturn(new ArrayList<>()); // Asegúrate de tener al menos 2 equipos
+        controlPrincipal.controlEquipo.getEquipos().add(new Equipo("Equipo A", "1", capitanA, jugadoresA)); // Agrega el equipo A
+        controlPrincipal.controlEquipo.getEquipos().add(new Equipo("Equipo B", "2", capitanB, jugadoresB)); // Agrega el equipo B
 
-    // Prueba el evento de iniciar un juego
-    ActionEvent e = new ActionEvent(new Object(), 0, "Jugar");
-    controlPrincipal.actionPerformed(e);
-    
-    // Verifica que se llame a los métodos esperados
-    verify(vistaJuego).setVisible(true); // La vista de juego debe ser visible
-    verify(vistaInicio).dispose(); // Se debe cerrar la vista de inicio
-    verify(controlPrincipal.controlPartido).iniciarPartido(); // Asegúrate de que controlPartido esté inicializado
-}
+        ActionEvent e = new ActionEvent(new Object(), 0, "Jugar");
+        controlPrincipal.actionPerformed(e);
+        
+        verify(vistaJuego).setVisible(true); // La vista de juego debe ser visible
+        verify(vistaInicio).dispose(); // Se debe cerrar la vista de inicio
+        verify(controlPrincipal.controlPartido).iniciarPartido(); // Asegúrate de que controlPartido esté inicializado
+    }
 
-
+    /**
+     * Prueba el método que obtiene la vista de crear equipo.
+     * Verifica que el resultado sea el esperado.
+     */
     @Test
     public void testGetCrearEquipo() {
-        // Prueba el método que obtiene la vista de crear equipo
         CrearEquipo result = controlPrincipal.getCrearEquipo();
         assertEquals(vistaCrearEquipo, result); // Verifica que el resultado sea el esperado
     }
 
+    /**
+     * Prueba el método que obtiene la ventana emergente.
+     * Verifica que el resultado sea el esperado.
+     */
     @Test
     public void testGetVentanaEmergente() {
-        // Prueba el método que obtiene la ventana emergente
         VentanasEmergentes result = controlPrincipal.getVentanaEmergente();
         assertEquals(ventanaEmergente, result); // Verifica que el resultado sea el esperado
     }
 
+    /**
+     * Prueba el método que obtiene la vista de inicio.
+     * Verifica que el resultado sea el esperado.
+     */
     @Test
     public void testGetVistaInicio() {
-        // Prueba el método que obtiene la vista de inicio
         Inicio result = controlPrincipal.getVistaInicio();
         assertEquals(vistaInicio, result); // Verifica que el resultado sea el esperado
     }
 
+    /**
+     * Prueba el método que obtiene la vista de juego.
+     * Verifica que el resultado sea el esperado.
+     */
     @Test
     public void testGetVistaJuego() {
-        // Prueba el método que obtiene la vista de juego
         Juego result = controlPrincipal.getVistaJuego();
         assertEquals(vistaJuego, result); // Verifica que el resultado sea el esperado 
     }

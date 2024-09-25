@@ -17,12 +17,12 @@ import java.util.logging.Logger;
 
 public class ControlPrincipal implements ActionListener {
 
-    private ControlEquipo controlEquipo;
-    private ControlPartido controlPartido; 
-    private VentanasEmergentes ventanaEmergente;
-    private CrearEquipo vistaCrearEquipo;
-    private Inicio vistaInicio;
-    private Juego vistaJuego;
+    protected ControlEquipo controlEquipo;
+    protected ControlPartido controlPartido; 
+    protected VentanasEmergentes ventanaEmergente;
+    protected CrearEquipo vistaCrearEquipo;
+    protected Inicio vistaInicio;
+    protected Juego vistaJuego;
 
     public ControlPrincipal() throws IOException {
         controlEquipo = new ControlEquipo(this);

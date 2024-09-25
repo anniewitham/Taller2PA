@@ -4,18 +4,33 @@ import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+/**
+ * Clase de prueba para ControlEquipo.
+ * Esta clase contiene pruebas unitarias para verificar el comportamiento de 
+ * la clase ControlEquipo al crear equipos con diferentes condiciones.
+ */
 public class ControlEquipoTest {
 
     protected ControlPrincipal control;
     protected ControlEquipo controlEquipo;
 
+    /**
+     * Configuración inicial antes de cada prueba.
+     * Se crea una instancia de ControlPrincipal y ControlEquipo.
+     *
+     * @throws IOException si ocurre un error al inicializar ControlPrincipal.
+     */
     @BeforeEach
     public void setUp() throws IOException {
         control = new ControlPrincipal();
         controlEquipo = new ControlEquipo(control);
     }
 
+    /**
+     * Prueba la creación de un equipo con datos válidos.
+     * Se simulan datos válidos para el capitán y cinco jugadores,
+     * y se llama al método crearEquipo para verificar su correcto funcionamiento.
+     */
     @Test
     public void testCrearEquipoConDatosValidos() {
         // Simular el ingreso de datos válidos
@@ -54,6 +69,11 @@ public class ControlEquipoTest {
         // verificar algún efecto secundario en ControlPrincipal.
     }
 
+    /**
+     * Prueba la creación de un equipo con menos de cinco jugadores.
+     * Intenta crear un equipo con solo un jugador y verifica que se 
+     * maneje el error adecuadamente.
+     */
     @Test
     public void testCrearEquipoConMenosDeCincoJugadores() {
         // Intentar crear equipo con solo un jugador
@@ -76,6 +96,11 @@ public class ControlEquipoTest {
         // manejó el error adecuadamente en ControlPrincipal.
     }
 
+    /**
+     * Prueba la creación de un equipo con campos vacíos.
+     * Se intenta crear un equipo sin llenar los campos requeridos
+     * y se verifica el comportamiento esperado.
+     */
     @Test
     public void testCrearEquipoConCamposVacios() {
         // Intentar crear un equipo sin llenar los campos

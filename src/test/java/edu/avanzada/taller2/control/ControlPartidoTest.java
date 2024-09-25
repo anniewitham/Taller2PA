@@ -13,6 +13,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Clase de prueba para el controlador de partidos (ControlPartido).
+ * Esta clase contiene métodos de prueba que verifican el comportamiento
+ * del controlador de partidos en diferentes situaciones.
+ */
 class ControlPartidoTest {
 
     protected ControlPartido controlPartido; // Instancia del controlador del partido
@@ -21,89 +26,120 @@ class ControlPartidoTest {
     protected Juez juez; // Juez para el partido
     protected ControlPrincipal controlPrincipal; // Instancia del controlador principal
 
-     @BeforeEach
+    /**
+     * Configura los objetos necesarios antes de cada método de prueba.
+     * @throws IOException si ocurre un error de entrada/salida.
+     */
+    @BeforeEach
     void setUp() throws IOException {
-        // Inicializa los objetos necesarios para las pruebas antes de cada método de prueba
         List<Jugador> jugadoresA = new ArrayList<>(); // Lista de jugadores para el equipo A
         List<Jugador> jugadoresB = new ArrayList<>(); // Lista de jugadores para el equipo B
 
         // Crear instancias de capitanes
-        Capitan capitanA = new Capitan("Capitán A", "Cédula A", "30"); // Asegúrate de ajustar la cédula y edad según sea necesario
-        Capitan capitanB = new Capitan("Capitán B", "Cédula B", "32"); // Asegúrate de ajustar la cédula y edad según sea necesario
+        Capitan capitanA = new Capitan("Capitán A", "Cédula A", "30");
+        Capitan capitanB = new Capitan("Capitán B", "Cédula B", "32");
 
-        // Crea las instancias de los equipos con nombre, número, capitán y lista de jugadores
+        // Crea las instancias de los equipos
         equipoA = new Equipo("Equipo A", "1", capitanA, jugadoresA);
         equipoB = new Equipo("Equipo B", "2", capitanB, jugadoresB);
 
-        // Crea la instancia del juez con nombre, cédula, edad y número de tarjeta profesional
+        // Crea la instancia del juez
         juez = new Juez("Juez 1", "CédulaJuez", "EdadJuez", "12345");
 
         // Crea la instancia del controlador principal
         controlPrincipal = new ControlPrincipal();
 
-        // Utiliza el constructor adecuado para ControlPartido
-        controlPartido = new ControlPartido(equipoA, equipoB, controlPrincipal); // Crea una nueva instancia de ControlPartido
+        // Crea una nueva instancia de ControlPartido
+        controlPartido = new ControlPartido(equipoA, equipoB, controlPrincipal);
         controlPartido.setJuez(juez); // Asigna el juez al controlador
     }
 
+    /**
+     * Prueba que el partido se inicia correctamente.
+     * Verifica que el estado del partido se establece como en curso.
+     * @throws IOException si ocurre un error de entrada/salida.
+     */
     @Test
     void testIniciarPartido_Success() throws IOException {
-        // Intenta iniciar el partido y verifica que se haya iniciado correctamente
         controlPartido.iniciarPartido();
         assertTrue(controlPartido.isPartidoEnCurso(), "El partido debería estar en curso.");
     }
 
+    /**
+     * Prueba que no se puede iniciar un partido que ya está en curso.
+     * Verifica que se lanza una excepción con el mensaje adecuado.
+     * @throws IOException si ocurre un error de entrada/salida.
+     */
     @Test
     void testIniciarPartido_AlreadyInProgress() throws IOException {
-        // Inicia el partido y luego intenta iniciarlo de nuevo para verificar que lanza la excepción
         controlPartido.iniciarPartido();
         Exception exception = assertThrows(IllegalStateException.class, () -> controlPartido.iniciarPartido());
         assertEquals("El partido ya está en curso.", exception.getMessage());
     }
 
+    /**
+     * Prueba que no se puede iniciar el partido si el equipo A es nulo.
+     * Verifica que se lanza una excepción con el mensaje adecuado.
+     */
     @Test
     void testIniciarPartido_NullEquipoA() {
-        // Establece el equipo A como nulo y verifica que lanza una excepción al intentar iniciar el partido
         controlPartido.setEquipoA(null);
         Exception exception = assertThrows(IllegalArgumentException.class, () -> controlPartido.iniciarPartido());
         assertEquals("Equipo A, equipo B y juez no pueden ser nulos.", exception.getMessage());
     }
 
-   @Test
-void testSimularPuntaje_Success() throws IOException {
-    // Inicia el partido y simula un puntaje
-    controlPartido.iniciarPartido();
-    controlPartido.simularPuntaje(); // No se pasa el equipo
-    assertTrue(controlPartido.getPuntajeA() > 0 || controlPartido.getPuntajeB() > 0, 
-               "El puntaje de al menos uno de los equipos debería ser mayor que cero.");
-}
+    /**
+     * Prueba que se puede simular un puntaje después de iniciar el partido.
+     * Verifica que al menos uno de los equipos tenga un puntaje mayor que cero.
+     * @throws IOException si ocurre un error de entrada/salida.
+     */
+    @Test
+    void testSimularPuntaje_Success() throws IOException {
+        controlPartido.iniciarPartido();
+        controlPartido.simularPuntaje();
+        assertTrue(controlPartido.getPuntajeA() > 0 || controlPartido.getPuntajeB() > 0, 
+                   "El puntaje de al menos uno de los equipos debería ser mayor que cero.");
+    }
 
-@Test
-void testSimularPuntaje_NotInProgress() {
-    // Intenta simular un puntaje sin que el partido haya comenzado y verifica que lanza la excepción
-    Exception exception = assertThrows(IllegalStateException.class, () -> controlPartido.simularPuntaje());
-    assertEquals("El partido no ha comenzado aún.", exception.getMessage());
-}
+    /**
+     * Prueba que no se puede simular un puntaje si el partido no ha comenzado.
+     * Verifica que se lanza una excepción con el mensaje adecuado.
+     */
+    @Test
+    void testSimularPuntaje_NotInProgress() {
+        Exception exception = assertThrows(IllegalStateException.class, () -> controlPartido.simularPuntaje());
+        assertEquals("El partido no ha comenzado aún.", exception.getMessage());
+    }
 
-
+    /**
+     * Prueba que se puede finalizar un partido iniciado.
+     * Verifica que el estado del partido cambia a no en curso después de finalizarlo.
+     * @throws IOException si ocurre un error de entrada/salida.
+     */
     @Test
     void testFinalizarPartido_Success() throws IOException {
-        // Inicia el partido, lo finaliza y verifica que el estado cambie a no en curso
         controlPartido.iniciarPartido();
         controlPartido.finalizarPartido();
         assertFalse(controlPartido.isPartidoEnCurso(), "El partido debería haber finalizado.");
     }
 
+    /**
+     * Prueba que no se puede finalizar un partido que no está en curso.
+     * Verifica que se lanza una excepción con el mensaje adecuado.
+     */
     @Test
     void testFinalizarPartido_NotInProgress() {
-        // Intenta finalizar un partido que no está en curso y verifica que lanza la excepción
         Exception exception = assertThrows(IllegalStateException.class, () -> controlPartido.finalizarPartido());
         assertEquals("El partido no está en curso.", exception.getMessage());
     }
 
+    /**
+     * Prueba que se puede reiniciar un partido.
+     * Verifica que los puntajes se restablezcan a cero después de reiniciar.
+     * @throws IOException si ocurre un error de entrada/salida.
+     */
     @Test
     void testReiniciarPartido() throws IOException {
-        // Inicia el partido, lo reinicia y verifica que los puntajes se restablezcan a cero
         controlPartido.iniciarPartido();
         controlPartido.reiniciarPartido();
         assertEquals(0, controlPartido.getPuntajeA(), "El puntaje del equipo A debería ser 0.");

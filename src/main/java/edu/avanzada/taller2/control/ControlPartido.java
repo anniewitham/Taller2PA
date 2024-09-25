@@ -8,29 +8,41 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * ControlPartido es la clase que gestiona el control del partido,
+ * incluyendo el manejo de los equipos, el puntaje, y la lógica del juego.
+ */
 public class ControlPartido {
-    private Equipo equipoA;
-    private Equipo equipoB;
-    private int puntajeA;
-    private int puntajeB;
-    private boolean partidoEnCurso;
-    private Random random;
-    private int[] huecos;
-    private Juez juez; // Juez es ahora una instancia de la clase Juez
-    private int puntajeMaximo;
-    private ArrayList<Equipo> equipos;
-    private String nombreA;
-    private String nombreB;
-    private int turno;
-    private int jugadorTurno;
-    private int turnoActual = 0;
-    private int lanzamientosRestantes = 5;
-    private int puntajeAcumulado = 0;
+    protected Equipo equipoA;
+    protected Equipo equipoB;
+    protected int puntajeA;
+    protected int puntajeB;
+    protected boolean partidoEnCurso;
+    protected Random random;
+    protected int[] huecos;
+    protected Juez juez; // Juez es ahora una instancia de la clase Juez
+    protected int puntajeMaximo;
+    protected ArrayList<Equipo> equipos;
+    protected String nombreA;
+    protected String nombreB;
+    protected int turno;
+    protected int jugadorTurno;
+    protected int turnoActual = 0;
+    protected int lanzamientosRestantes = 5;
+    protected int puntajeAcumulado = 0;
 
-    private ControlProperties properties;
-    private ControlPrincipal control;
-    private ControlEquipo controlEquipo;
+    protected ControlProperties properties;
+    protected ControlPrincipal control;
+    protected ControlEquipo controlEquipo;
 
+    /**
+     * Constructor de ControlPartido.
+     * 
+     * @param equipoA El primer equipo que participa en el partido.
+     * @param equipoB El segundo equipo que participa en el partido.
+     * @param control Control principal que maneja la interfaz.
+     * @throws IOException Si ocurre un error al cargar el juez.
+     */
     public ControlPartido(Equipo equipoA, Equipo equipoB, ControlPrincipal control) throws IOException {
         if (equipoA == null || equipoB == null) {
             control.getVentanaEmergente().ventanaError("¡No se puede iniciar el juego sin ambos equipos!");
@@ -60,6 +72,11 @@ public class ControlPartido {
         cargarValores();
     }
 
+    /**
+     * Carga los datos del juez desde las propiedades.
+     * 
+     * @throws IOException Si ocurre un error al cargar los datos del juez.
+     */
     private void cargarJuez() throws IOException {
         String nombre = properties.obtenerNombreJuez();
         String cedula = properties.obtenerCedulaJuez();
@@ -70,6 +87,11 @@ public class ControlPartido {
         this.juez = new Juez(numeroTarjeta, cedula, nombre, edad);
     }
 
+    /**
+     * Carga los valores de los huecos desde las propiedades.
+     * 
+     * @throws IOException Si ocurre un error al cargar los valores de los huecos.
+     */
     private void cargarValores() throws IOException {
         for (int i = 0; i < huecos.length; i++) {
             String clave = "orificio.hueco" + (i + 1);
@@ -77,6 +99,11 @@ public class ControlPartido {
         }
     }
 
+    /**
+     * Inicia el partido y muestra la interfaz correspondiente.
+     * 
+     * @throws IOException Si ocurre un error al iniciar el partido.
+     */
     public void iniciarPartido() throws IOException {
         if (partidoEnCurso) {
             throw new IllegalStateException("El partido ya está en curso.");
@@ -89,96 +116,130 @@ public class ControlPartido {
         control.getVentanaEmergente().ventanaPlana("¡Ha comenzado el partido entre " + nombreA + " y " + nombreB + "!");
     }
 
+    /**
+     * Reinicia el puntaje de ambos equipos.
+     */
     public void reiniciarPartido() {
         puntajeA = 0;
         puntajeB = 0;
     }
 
+    /**
+     * Maneja la lógica de un turno de juego.
+     * 
+     * @throws IllegalStateException Si el partido no ha comenzado.
+     */
     public void jugarTurno() throws IllegalStateException {
-    if (!partidoEnCurso) {
-        throw new IllegalStateException("El partido no ha comenzado aún.");
-    }
-
-    // Comprobar si hay jugadores en el equipo A
-    if (turnoActual < equipoA.getJugadores().size() || turnoActual < equipoB.getJugadores().size()) {
-        if (turnoActual % 2 == 0 && turnoActual / 2 < equipoA.getJugadores().size()) {
-            Jugador jugadorA = equipoA.getJugadores().get(turnoActual / 2);
-            if (jugadorDetrasDeLineaDeJuego()) {
-                realizarLanzamiento(jugadorA, equipoA);
-                lanzamientosRestantes--;
-
-                // Verificar si el equipo A ha alcanzado 5000 puntos
-                if (puntajeA >= 5000) {
-                    finalizarPartido(); // Terminar el partido si el equipo A gana
-                    return; // Salir del método
-                }
-
-                // Si quedan lanzamientos, sigue en el turno actual
-                if (lanzamientosRestantes > 0) {
-                    return; // Esperar al siguiente lanzamiento
-                }
-            } else {
-                control.getVentanaEmergente().ventanaError("El jugador " + jugadorA.getNombre() + " no está detrás de la línea de juego.");
-            }
-        } else if (turnoActual % 2 == 1 && turnoActual / 2 < equipoB.getJugadores().size()) {
-            Jugador jugadorB = equipoB.getJugadores().get(turnoActual / 2);
-            if (jugadorDetrasDeLineaDeJuego()) {
-                realizarLanzamiento(jugadorB, equipoB);
-                lanzamientosRestantes--;
-
-                // Verificar si el equipo B ha alcanzado 5000 puntos
-                if (puntajeB >= 5000) {
-                    finalizarPartido(); // Terminar el partido si el equipo B gana
-                    return; // Salir del método
-                }
-
-                // Si quedan lanzamientos, sigue en el turno actual
-                if (lanzamientosRestantes > 0) {
-                    return; // Esperar al siguiente lanzamiento
-                }
-            } else {
-                control.getVentanaEmergente().ventanaError("El jugador " + jugadorB.getNombre() + " no está detrás de la línea de juego.");
-            }
+        if (!partidoEnCurso) {
+            throw new IllegalStateException("El partido no ha comenzado aún.");
         }
 
-        // Al terminar los 5 lanzamientos de un jugador
-        if (lanzamientosRestantes == 0) {
-            // Mostrar el puntaje acumulado del jugador
-            String mensajeFinal = "El jugador " + (turnoActual % 2 == 0 ? equipoA.getJugadores().get(turnoActual / 2).getNombre() : equipoB.getJugadores().get(turnoActual / 2).getNombre()) + 
-                                   " ha terminado sus lanzamientos. Acumulado: " + puntajeAcumulado + " puntos. \n" +
-                                   "Presione 'Lanzar' para continuar con el siguiente jugador.";
+        // Comprobar si hay jugadores en el equipo A
+        if (turnoActual < equipoA.getJugadores().size() || turnoActual < equipoB.getJugadores().size()) {
+            if (turnoActual % 2 == 0 && turnoActual / 2 < equipoA.getJugadores().size()) {
+                Jugador jugadorA = equipoA.getJugadores().get(turnoActual / 2);
+                if (jugadorDetrasDeLineaDeJuego()) {
+                    realizarLanzamiento(jugadorA, equipoA);
+                    lanzamientosRestantes--;
 
-            // Mostrar el mensaje final
-            control.getVentanaEmergente().ventanaPlana(mensajeFinal);
+                    // Verificar si el equipo A ha alcanzado 5000 puntos
+                    if (puntajeA >= 5000) {
+                        finalizarPartido(); // Terminar el partido si el equipo A gana
+                        return; // Salir del método
+                    }
 
-            // Preparar para el siguiente jugador
-            turnoActual++;
-            lanzamientosRestantes = 5; // Reiniciar lanzamientos restantes
-            puntajeAcumulado = 0; // Reiniciar puntaje acumulado para el siguiente jugador
+                    // Si quedan lanzamientos, sigue en el turno actual
+                    if (lanzamientosRestantes > 0) {
+                        return; // Esperar al siguiente lanzamiento
+                    }
+                } else {
+                    control.getVentanaEmergente().ventanaError("El jugador " + jugadorA.getNombre() + " no está detrás de la línea de juego.");
+                }
+            } else if (turnoActual % 2 == 1 && turnoActual / 2 < equipoB.getJugadores().size()) {
+                Jugador jugadorB = equipoB.getJugadores().get(turnoActual / 2);
+                if (jugadorDetrasDeLineaDeJuego()) {
+                    realizarLanzamiento(jugadorB, equipoB);
+                    lanzamientosRestantes--;
+
+                    // Verificar si el equipo B ha alcanzado 5000 puntos
+                    if (puntajeB >= 5000) {
+                        finalizarPartido(); // Terminar el partido si el equipo B gana
+                        return; // Salir del método
+                    }
+
+                    // Si quedan lanzamientos, sigue en el turno actual
+                    if (lanzamientosRestantes > 0) {
+                        return; // Esperar al siguiente lanzamiento
+                    }
+                } else {
+                    control.getVentanaEmergente().ventanaError("El jugador " + jugadorB.getNombre() + " no está detrás de la línea de juego.");
+                }
+            }
+
+            // Al terminar los 5 lanzamientos de un jugador
+            if (lanzamientosRestantes == 0) {
+                // Mostrar el puntaje acumulado del jugador
+                String mensajeFinal = "El jugador " + (turnoActual % 2 == 0 ? equipoA.getJugadores().get(turnoActual / 2).getNombre() : equipoB.getJugadores().get(turnoActual / 2).getNombre()) + 
+                                       " ha terminado sus lanzamientos. Acumulado: " + puntajeAcumulado + " puntos. \n" +
+                                       "Presione 'Lanzar' para continuar con el siguiente jugador.";
+
+                // Mostrar el mensaje final
+                control.getVentanaEmergente().ventanaPlana(mensajeFinal);
+
+                // Preparar para el siguiente jugador
+                turnoActual++;
+                lanzamientosRestantes = 5; // Reiniciar lanzamientos restantes
+                puntajeAcumulado = 0; // Reiniciar puntaje acumulado para el siguiente jugador
+            }
+        } else {
+            // Si no hay más jugadores, finalizar el partido
+            finalizarPartido();
         }
-    } else {
-        // Si no hay más jugadores, finalizar el partido
-        finalizarPartido();
     }
-}
 
-private void realizarLanzamiento(Jugador jugador, Equipo equipo) {
-    // Seleccionar un hueco al azar y obtener su valor
-    int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
-    int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
+    /**
+     * Realiza un lanzamiento para un jugador específico.
+     * 
+     * @param jugador El jugador que realiza el lanzamiento.
+     * @param equipo El equipo al que pertenece el jugador.
+     */
+    private void realizarLanzamiento(Jugador jugador, Equipo equipo) {
+        // Seleccionar un hueco al azar y obtener su valor
+        int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
+        int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
 
-    // Acumular el puntaje del turno
-    puntajeAcumulado += puntajeObtenido; // Acumular el puntaje en el puntaje acumulado
+        // Acumular el puntaje del turno
+        puntajeAcumulado += puntajeObtenido; // Acumular el puntaje en el puntaje acumulado
 
-    // Mostrar solo el puntaje del lanzamiento actual
-    control.getVentanaEmergente().ventanaPlana("El jugador " + jugador.getNombre() + " del equipo " + equipo.getNombreEquipo() +
-            " anotó " + puntajeObtenido + " puntos en este lanzamiento. Puntaje acumulado: " + puntajeAcumulado + " puntos.");
-}
+        // Mostrar solo el puntaje del lanzamiento actual
+        control.getVentanaEmergente().ventanaPlana("El jugador " + jugador.getNombre() + " del equipo " + equipo.getNombreEquipo() +
+                " anotó " + puntajeObtenido + " puntos en este lanzamiento.");
+        
+        // Actualizar el puntaje total del equipo correspondiente
+        if (equipo.equals(equipoA)) {
+            puntajeA += puntajeObtenido;
+        } else {
+            puntajeB += puntajeObtenido;
+        }
 
+        // Mostrar puntaje acumulado
+        mostrarPuntajeAcumulado();
+    }
+
+    /**
+     * Verifica si el jugador está detrás de la línea de juego.
+     * 
+     * @return true si el jugador está detrás de la línea de juego; false en caso contrario.
+     */
     private boolean jugadorDetrasDeLineaDeJuego() {
         return control.getVistaJuego().getjRadioButton1().isSelected();
     }
 
+    /**
+     * Indica el turno del jugador actual.
+     * 
+     * @param jugador El índice del jugador cuyo turno se está indicando.
+     */
     public void turnoJugador(int jugador) {
     // Verificar el turno actual para determinar de qué equipo es el jugador
     switch (turno) {
@@ -236,115 +297,82 @@ private void realizarLanzamiento(Jugador jugador, Equipo equipo) {
 
         default:
             control.getVentanaEmergente().ventanaError("Turno no válido.");
-            break; // Salir si el turno no es válido
-    }
+            break; // Salir si el turno no es válido
+}
 }
 
-
+    /**
+     * Simula el puntaje para el jugador actual, permitiendo obtener un puntaje aleatorio.
+     * 
+     * @throws IllegalStateException Si el partido no ha comenzado.
+     * @throws IllegalArgumentException Si el jugador no es válido.
+     */
     public void simularPuntaje() throws IllegalStateException, IllegalArgumentException {
         if (!partidoEnCurso) {
-            throw new IllegalStateException("El partido no ha comenzado aún.");
+            throw new IllegalStateException("El partido no ha comenzado.");
         }
 
-        // Seleccionar un hueco al azar y obtener su valor
-        int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
-        int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
-
-        switch (turno) {
-            case 1:
-                puntajeA += puntajeObtenido;
-                control.getVentanaEmergente().ventanaPlana("El jugador " + equipoA.getJugadores().get(jugadorTurno - 1).getNombre() +
-                        " del equipo " + nombreA + " ha anotado: " + puntajeObtenido + " puntos!");
-                break;
-            case 2:
-                puntajeB += puntajeObtenido;
-                control.getVentanaEmergente().ventanaPlana("El jugador " + equipoB.getJugadores().get(jugadorTurno - 1).getNombre() +
-                        " del equipo " + nombreB + " ha anotado: " + puntajeObtenido + " puntos!");
-                break;
+        if (turnoActual >= equipoA.getJugadores().size() + equipoB.getJugadores().size()) {
+            throw new IllegalArgumentException("El jugador no es válido.");
         }
 
-        // Verificar si alguno de los equipos ha alcanzado el puntaje máximo
-        if (puntajeA >= puntajeMaximo || puntajeB >= puntajeMaximo) {
-            finalizarPartido();
-        }
+        // Simular puntaje aleatorio para el jugador actual
+        int puntajeSimulado = random.nextInt(100); // Ejemplo de puntaje aleatorio
+        puntajeAcumulado += puntajeSimulado;
+
+        // Mostrar el puntaje acumulado
+        mostrarPuntajeAcumulado();
     }
-    
+
+    /**
+     * Muestra el puntaje acumulado de ambos equipos.
+     */
     private void mostrarPuntajeAcumulado() {
-        control.getVentanaEmergente().ventanaPlana("Puntaje acumulado: \n" +
-                nombreA + ": " + puntajeA + "\n" +
-                nombreB + ": " + puntajeB);
+        String mensaje = "Puntaje acumulado: \n" +
+                         nombreA + ": " + puntajeA + "\n" +
+                         nombreB + ": " + puntajeB;
+        control.getVentanaEmergente().ventanaPlana(mensaje); // Mostrar puntaje en la ventana emergente
     }
 
+    /**
+     * Finaliza el partido y muestra el equipo ganador.
+     * 
+     * @throws IllegalStateException Si el partido no está en curso.
+     */
     public void finalizarPartido() {
         if (!partidoEnCurso) {
             throw new IllegalStateException("El partido no está en curso.");
         }
 
-        partidoEnCurso = false;
-        mostrarEquipoGanador();
-        control.getVentanaEmergente().ventanaPlana("¡El partido ha llegado a su fin!");
-        control.getVistaJuego().dispose();
-        control.getVistaInicio().setVisible(true);
+        partidoEnCurso = false; // Marcar partido como no en curso
+        mostrarEquipoGanador(); // Mostrar equipo ganador
     }
-    
+
+    /**
+     * Muestra el equipo ganador al finalizar el partido.
+     */
     private void mostrarEquipoGanador() {
-    String ganador;
-    Equipo equipoGanador;
-
-    // Determinar el equipo ganador
-    if (puntajeA > puntajeB) {
-        equipoGanador = equipoA;
-        ganador = "¡El equipo " + equipoA.getNombreEquipo() + " ha ganado con " + puntajeA + " puntos!";
-    } else if (puntajeB > puntajeA) {
-        equipoGanador = equipoB;
-        ganador = "¡El equipo " + equipoB.getNombreEquipo() + " ha ganado con " + puntajeB + " puntos!";
-    } else {
-        ganador = "¡El partido terminó en empate con " + puntajeA + " puntos cada uno!";
-        control.getVentanaEmergente().ventanaPlana(ganador);
-        return; // Salir si hay empate
+        String ganador = (puntajeA > puntajeB) ? nombreA : nombreB;
+        control.getVentanaEmergente().ventanaPlana("El equipo ganador es " + ganador + " con un puntaje de " + Math.max(puntajeA, puntajeB) + " puntos!");
     }
-
-    // Mostrar datos del equipo ganador
-    StringBuilder datosEquipo = new StringBuilder();
-    datosEquipo.append(ganador).append("\n");
-    datosEquipo.append("Datos del equipo:\n");
-    datosEquipo.append("Nombre del equipo: ").append(equipoGanador.getNombreEquipo()).append("\n");
-
-    // Mostrar datos del capitán
-    Capitan capitan = equipoGanador.getCapitan();
-    if (capitan != null) {
-        datosEquipo.append("Capitan del equipo:\n");
-        datosEquipo.append("Nombre: ").append(capitan.getNombre())
-                .append(", Edad: ").append(capitan.getEdad())
-                .append(", Cedula: ").append(capitan.getCedula()).append("\n");
-    } else {
-        datosEquipo.append("No hay capitán disponible.\n");
-    }
-
-    // Mostrar datos de los jugadores
-    for (Jugador jugador : equipoGanador.getJugadores()) {
-        datosEquipo.append("Jugador: ").append(jugador.getNombre()) // Muestra el nombre del jugador
-                   .append(", Edad: ").append(jugador.getEdad())
-                   .append(", Cedula: ").append(jugador.getCedula()).append("\n");
-    }
-
-    // Mostrar datos del juez
-    datosEquipo.append("Datos del juez:\n");
-    datosEquipo.append("Nombre: ").append(juez.getNombre())
-               .append(", Cédula: ").append(juez.getCedula())
-               .append(", Edad: ").append(juez.getEdad())
-               .append(", Número de tarjeta: ").append(juez.getNumTarjetaProf()).append("\n");
-
-    // Mostrar toda la información en la ventana emergente
-    control.getVentanaEmergente().ventanaPlana(datosEquipo.toString());
-}
 
     // Getters y Setters
 
+    /**
+     * Obtiene el equipo A.
+     * 
+     * @return El equipo A.
+     */
     public Equipo getEquipoA() {
         return equipoA;
     }
 
+    /**
+     * Establece el equipo A.
+     * 
+     * @param equipoA El nuevo equipo A.
+     * @throws IllegalArgumentException Si el equipo A es nulo.
+     */
     public void setEquipoA(Equipo equipoA) {
         if (equipoA == null) {
             throw new IllegalArgumentException("El equipo A no puede ser nulo.");
@@ -352,10 +380,21 @@ private void realizarLanzamiento(Jugador jugador, Equipo equipo) {
         this.equipoA = equipoA;
     }
 
+    /**
+     * Obtiene el equipo B.
+     * 
+     * @return El equipo B.
+     */
     public Equipo getEquipoB() {
         return equipoB;
     }
 
+    /**
+     * Establece el equipo B.
+     * 
+     * @param equipoB El nuevo equipo B.
+     * @throws IllegalArgumentException Si el equipo B es nulo.
+     */
     public void setEquipoB(Equipo equipoB) {
         if (equipoB == null) {
             throw new IllegalArgumentException("El equipo B no puede ser nulo.");
@@ -363,10 +402,21 @@ private void realizarLanzamiento(Jugador jugador, Equipo equipo) {
         this.equipoB = equipoB;
     }
 
+    /**
+     * Obtiene el juez del partido.
+     * 
+     * @return El juez.
+     */
     public Juez getJuez() {
         return juez;
     }
 
+    /**
+     * Establece el juez del partido.
+     * 
+     * @param juez El nuevo juez.
+     * @throws IllegalArgumentException Si el juez es nulo.
+     */
     public void setJuez(Juez juez) {
         if (juez == null) {
             throw new IllegalArgumentException("El juez no puede ser nulo.");
@@ -374,18 +424,38 @@ private void realizarLanzamiento(Jugador jugador, Equipo equipo) {
         this.juez = juez;
     }
 
+    /**
+     * Obtiene el puntaje del equipo A.
+     * 
+     * @return El puntaje del equipo A.
+     */
     public int getPuntajeA() {
         return puntajeA;
     }
 
+    /**
+     * Obtiene el puntaje del equipo B.
+     * 
+     * @return El puntaje del equipo B.
+     */
     public int getPuntajeB() {
         return puntajeB;
     }
 
+    /**
+     * Verifica si el partido está en curso.
+     * 
+     * @return true si el partido está en curso; false en caso contrario.
+     */
     public boolean isPartidoEnCurso() {
         return partidoEnCurso;
     }
 
+    /**
+     * Obtiene el puntaje máximo permitido.
+     * 
+     * @return El puntaje máximo.
+     */
     public int getPuntajeMaximo() {
         return puntajeMaximo;
     }
