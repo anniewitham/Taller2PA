@@ -50,23 +50,15 @@ public class Juez extends Persona {
         this.numTarjetaProf = numeroTarjetaProfesional;
     }
 
-    /**
-     * Devuelve el número de tarjeta profesional del juez.
-     *
-     * @return El número de tarjeta profesional del juez.
-     */
-    public String getNumeroTarjetaProfesional() {
+    public String getNumTarjetaProf() {
         return numTarjetaProf;
     }
 
-    /**
-     * Establece el número de tarjeta profesional del juez.
-     *
-     * @param numeroTarjetaProfesional El nuevo número de tarjeta profesional
-     * para el juez.
-     */
-    public void setNumeroTarjetaProfesional(String numeroTarjetaProfesional) {
-        this.numTarjetaProf = numeroTarjetaProfesional;
+    public void setNumTarjetaProf(String numTarjetaProf) {
+        this.numTarjetaProf = numTarjetaProf;
     }
 
+    
+    
+    
 }

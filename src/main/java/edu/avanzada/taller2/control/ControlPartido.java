@@ -2,6 +2,7 @@ package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Juez;
+import edu.avanzada.taller2.modelo.Jugador;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,7 +15,7 @@ public class ControlPartido {
     private boolean partidoEnCurso;
     private Random random;
     private int[] huecos;
-    private Juez juez;
+    private Juez juez; // Juez es ahora una instancia de la clase Juez
     private int puntajeMaximo;
     private ArrayList<Equipo> equipos;
     private String nombreA;
@@ -24,6 +25,7 @@ public class ControlPartido {
 
     private ControlProperties properties;
     private ControlPrincipal control;
+    private ControlEquipo controlEquipo;
 
     public ControlPartido(Equipo equipoA, Equipo equipoB, ControlPrincipal control) throws IOException {
         if (equipoA == null || equipoB == null) {
@@ -33,7 +35,11 @@ public class ControlPartido {
 
         this.properties = new ControlProperties();
         this.control = control;
+        this.controlEquipo = new ControlEquipo(control);
 
+        cargarJuez(); // Cargar el juez desde las propiedades
+
+        this.equipos = controlEquipo.getEquipos();
         this.equipoA = equipoA;
         this.equipoB = equipoB;
         this.nombreA = equipoA.getNombreEquipo();
@@ -48,6 +54,16 @@ public class ControlPartido {
         this.jugadorTurno = 1;
 
         cargarValores();
+    }
+
+    private void cargarJuez() throws IOException {
+        String nombre = properties.obtenerNombreJuez();
+        String cedula = properties.obtenerCedulaJuez();
+        String edad = properties.obtenerEdadJuez();
+        String numeroTarjeta = properties.obtenerNumeroTarjetaJuez();
+
+        // Crear el objeto juez con los valores obtenidos
+        this.juez = new Juez(numeroTarjeta, cedula, nombre, edad);
     }
 
     private void cargarValores() throws IOException {
@@ -94,6 +110,11 @@ public class ControlPartido {
         }
 
         turnoJugador(jugadorTurno);
+        if (jugadorTurno < 5){
+            jugadorTurno++;
+        } else {
+            jugadorTurno = 1;
+        }
         simularPuntaje();
     }
 
@@ -155,12 +176,12 @@ public class ControlPartido {
         switch (turno) {
             case 1:
                 puntajeA += puntajeObtenido;
-                control.getVentanaEmergente().ventanaPlana("El equipo " + nombreA + " ha anotado: " + puntajeObtenido + " puntos.");
+                control.getVentanaEmergente().ventanaPlana("El equipo " + nombreA + " ha anotado: " + puntajeObtenido + " puntos y con esto suma "+puntajeA+"!");
                 turno = 2; // Cambiar el turno
                 break;
             case 2:
                 puntajeB += puntajeObtenido;
-                control.getVentanaEmergente().ventanaPlana("El equipo " + nombreB + " ha anotado: " + puntajeObtenido + " puntos.");
+                control.getVentanaEmergente().ventanaPlana("El equipo " + nombreB + " ha anotado: " + puntajeObtenido + " puntos y con esto suma "+puntajeB+"!");
                 turno = 1; // Cambiar el turno
                 break;
         }
@@ -177,8 +198,50 @@ public class ControlPartido {
         }
 
         partidoEnCurso = false;
+        mostrarEquipoGanador();
         control.getVentanaEmergente().ventanaPlana("¡El partido ha llegado a su fin!");
     }
+    
+    private void mostrarEquipoGanador() {
+        String ganador;
+        Equipo equipoGanador;
+    
+        // Determinar el equipo ganador
+        if (puntajeA > puntajeB) {
+            equipoGanador = equipoA;
+            ganador = "¡El equipo " + equipoA.getNombreEquipo() + " ha ganado con " + puntajeA + " puntos!";
+        } else if (puntajeB > puntajeA) {
+            equipoGanador = equipoB;
+            ganador = "¡El equipo " + equipoB.getNombreEquipo() + " ha ganado con " + puntajeB + " puntos!";
+        } else {
+            ganador = "¡El partido terminó en empate con " + puntajeA + " puntos cada uno!";
+            control.getVentanaEmergente().ventanaPlana(ganador);
+            return; // Salir si hay empate
+        }
+
+        // Mostrar datos del equipo ganador
+        StringBuilder datosEquipo = new StringBuilder();
+        datosEquipo.append(ganador).append("\n");
+        datosEquipo.append("Datos del equipo:\n");
+        datosEquipo.append("Nombre del equipo: ").append(equipoGanador.getNombreEquipo()).append("\n");
+    
+        // Mostrar datos de los jugadores
+        for (Jugador jugador : equipoGanador.getJugadores()) {
+            datosEquipo.append("Jugador: ").append(jugador.getNombre())
+                       .append(", Edad: ").append(jugador.getEdad())
+                       .append(", Cedula: ").append(jugador.getCedula()).append("\n");
+        }
+    
+        // Mostrar datos del juez
+        datosEquipo.append("Datos del juez:\n");
+        datosEquipo.append("Nombre: ").append(juez.getNombre())
+                   .append(", Cédula: ").append(juez.getCedula())
+                   .append(", Edad: ").append(juez.getEdad())
+                   .append(", Número de tarjeta: ").append(juez.getNumTarjetaProf()).append("\n");
+    
+        // Mostrar toda la información en la ventana emergente
+        control.getVentanaEmergente().ventanaPlana(datosEquipo.toString());
+}
 
     // Getters y Setters
 

@@ -1,5 +1,6 @@
 package edu.avanzada.taller2.control;
 
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ public class ControlEquipoTest {
     private ControlEquipo controlEquipo;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         control = new ControlPrincipal();
         controlEquipo = new ControlEquipo(control);
     }

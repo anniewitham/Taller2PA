@@ -1,11 +1,16 @@
 package edu.avanzada.taller2.control;
 
+import edu.avanzada.taller2.modelo.Capitan;
+import edu.avanzada.taller2.modelo.Equipo;
+import edu.avanzada.taller2.modelo.Jugador;
 import edu.avanzada.taller2.vista.CrearEquipo;
 import edu.avanzada.taller2.vista.Inicio;
 import edu.avanzada.taller2.vista.Juego;
 import edu.avanzada.taller2.vista.VentanasEmergentes;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,17 +94,35 @@ public class ControlPrincipalTest {
         verify(vistaInicio).setVisible(true); // La vista de inicio debe ser visible
     }
 
-    @Test
-    public void testActionPerformedJugar() throws IOException {
-        // Prueba el evento de iniciar un juego
-        ActionEvent e = new ActionEvent(new Object(), 0, "Jugar");
-        controlPrincipal.actionPerformed(e);
-        
-        // Verifica que se llame a los métodos esperados
-        verify(vistaJuego).setVisible(true); // La vista de juego debe ser visible
-        verify(vistaInicio).dispose(); // Se debe cerrar la vista de inicio
-        verify(controlPrincipal.partido).iniciarPartido(); // Se debe iniciar el partido
-    }
+  @Test
+public void testActionPerformedJugar() throws IOException {
+    // Prepara el entorno para el juego
+    List<Jugador> jugadoresA = new ArrayList<>(); // Lista de jugadores para el equipo A
+    List<Jugador> jugadoresB = new ArrayList<>(); // Lista de jugadores para el equipo B
+
+    // Agrega algunos jugadores mockeados a cada equipo (asegúrate de tener la clase Jugador y su constructor)
+    jugadoresA.add(mock(Jugador.class)); // Agrega un jugador mockeado
+    jugadoresB.add(mock(Jugador.class)); // Agrega otro jugador mockeado
+
+    // Crea un capitán mockeado para cada equipo
+    Capitan capitanA = mock(Capitan.class);
+    Capitan capitanB = mock(Capitan.class);
+
+    // Inicializa el control de equipo y agrega los equipos
+    when(controlPrincipal.controlEquipo.getEquipos()).thenReturn(new ArrayList<>()); // Asegúrate de tener al menos 2 equipos
+    controlPrincipal.controlEquipo.getEquipos().add(new Equipo("Equipo A", "1", capitanA, jugadoresA)); // Agrega el equipo A
+    controlPrincipal.controlEquipo.getEquipos().add(new Equipo("Equipo B", "2", capitanB, jugadoresB)); // Agrega el equipo B
+
+    // Prueba el evento de iniciar un juego
+    ActionEvent e = new ActionEvent(new Object(), 0, "Jugar");
+    controlPrincipal.actionPerformed(e);
+    
+    // Verifica que se llame a los métodos esperados
+    verify(vistaJuego).setVisible(true); // La vista de juego debe ser visible
+    verify(vistaInicio).dispose(); // Se debe cerrar la vista de inicio
+    verify(controlPrincipal.controlPartido).iniciarPartido(); // Asegúrate de que controlPartido esté inicializado
+}
+
 
     @Test
     public void testGetCrearEquipo() {
@@ -126,6 +149,6 @@ public class ControlPrincipalTest {
     public void testGetVistaJuego() {
         // Prueba el método que obtiene la vista de juego
         Juego result = controlPrincipal.getVistaJuego();
-        assertEquals(vistaJuego, result); // Verifica que el resultado sea el esperado
-    }
+        assertEquals(vistaJuego, result); // Verifica que el resultado sea el esperado 
+    }
 }
