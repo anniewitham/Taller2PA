@@ -18,8 +18,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
     public CrearEquipo(ControlPrincipal aThis) {
         initComponents();
         control = aThis;
-        //setLocationRelativeTo(null);
-        setVisible(true);
+        setLocationRelativeTo(null);
     }
     
     public void resetearCamposCrearEquipo() {
@@ -65,7 +64,6 @@ public class CrearEquipo  extends javax.swing.JFrame {
         BotonSalir = new javax.swing.JButton();
         BotonVolver = new javax.swing.JButton();
         BotonRegistrar = new javax.swing.JButton();
-        jLabel27 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         TextoNombreEquipo = new javax.swing.JTextField();
         Capitan = new javax.swing.JPanel();
@@ -143,8 +141,6 @@ public class CrearEquipo  extends javax.swing.JFrame {
             }
         });
 
-        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/avanzada/taller2/vista/ranaa.png"))); // NOI18N
-
         jLabel26.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(0, 0, 153));
         jLabel26.setText("Nombre Equipo");
@@ -167,13 +163,11 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addGroup(NombreEquipoLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(BotonVolver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                        .addComponent(jLabel27)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BotonRegistrar)))
                 .addGap(22, 22, 22))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 68, Short.MAX_VALUE)
                 .addGroup(NombreEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
                         .addComponent(jLabel26)
@@ -197,14 +191,9 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addGroup(NombreEquipoLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(TextoNombreEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                        .addGroup(NombreEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                                .addComponent(BotonRegistrar)
-                                .addGap(18, 18, 18))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addComponent(BotonRegistrar)
+                        .addGap(18, 18, 18))))
         );
 
         Equipo.addTab("Nombre E", NombreEquipo);
@@ -847,7 +836,6 @@ public class CrearEquipo  extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

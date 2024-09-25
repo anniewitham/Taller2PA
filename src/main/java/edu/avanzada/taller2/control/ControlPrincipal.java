@@ -2,7 +2,6 @@ package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.vista.CrearEquipo;
 import edu.avanzada.taller2.vista.Inicio;
-import edu.avanzada.taller2.vista.RegistrarJuez;
 import edu.avanzada.taller2.vista.VentanasEmergentes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +13,6 @@ public class ControlPrincipal implements ActionListener {
     private VentanasEmergentes ventanaEmergente;
     private CrearEquipo vistaCrearEquipo;
     private Inicio vistaInicio;
-    private RegistrarJuez vistaJuez;
 
     public ControlPrincipal() {
         controlEquipo = new ControlEquipo(this);
@@ -31,13 +29,6 @@ public class ControlPrincipal implements ActionListener {
         vistaInicio.BotonRegistrarEquipo.addActionListener(this);
         vistaInicio.BotonJuez.addActionListener(this);
         vistaInicio.BotonJugar.addActionListener(this);
-
-        vistaJuez = new RegistrarJuez(this);
-        vistaJuez.BotonSalir.addActionListener(this);
-        vistaJuez.BotonVolver.addActionListener(this);
-        vistaJuez.BotonRegistrarJuez.addActionListener(this);
-
-        vistaInicio.setVisible(true);
     }
 
     @Override
@@ -48,26 +39,20 @@ public class ControlPrincipal implements ActionListener {
         if ("Volver".equals(e.getActionCommand())) {
             vistaCrearEquipo.dispose();
             vistaCrearEquipo.resetearCamposCrearEquipo();
-            vistaJuez.dispose();
-            vistaJuez.resetearCamposRegistrarJuez();
+            vistaInicio.setVisible(true);
         }
         if ("Registrar Equipo".equals(e.getActionCommand())) {
             vistaInicio.dispose();
+            vistaCrearEquipo.setVisible(true);
         }
-        if ("Registro Equipo".equals(e.getActionCommand())) {
+        if ("Registrar".equals(e.getActionCommand())) {
             controlEquipo.crearEquipo();
-        }
-        if ("Registrar Juez".equals(e.getActionCommand())) {
-            vistaInicio.dispose();
-            vistaJuez.setVisible(true);
-        }
-        if ("Registro Juez".equals(e.getActionCommand())) {
-
+            vistaCrearEquipo.dispose();
+            vistaInicio.setVisible(true);
         }
         if ("Jugar".equals(e.getActionCommand())) {
 
         }
-
     }
 
     public CrearEquipo getCrearEquipo() {

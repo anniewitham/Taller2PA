@@ -7,104 +7,118 @@ import edu.avanzada.taller2.modelo.Jugador;
 import java.util.ArrayList;
 import java.util.List;
 
-//Controlador
+// Controlador
 public class ControlEquipo {
 
     private ControlPrincipal control;
     private ArrayList<Equipo> equipos;
-    private Equipo equipo;
 
     public ControlEquipo(ControlPrincipal control) {
         this.control = control;
         this.equipos = new ArrayList<>();
     }
 
+    public void ingresarTodosLosCampos() {
+        control.getVentanaEmergente().ventanaError("Ingrese todos los datos obligatorios");
+    }
+
+    public void cedulaRepetida(int i) {
+        control.getVentanaEmergente().ventanaError("La cédula "+i+" ya se encuentra en uso");
+    }
+
     public void crearEquipo() {
+        // Verificar si los campos del capitán están completos
         if (control.getCrearEquipo().cargarNombreEquipo().getText().isEmpty()
                 || control.getCrearEquipo().cargarNombre().getText().isEmpty()
                 || control.getCrearEquipo().cargarCedula().getText().isEmpty()
-                || control.getCrearEquipo().cargarEdad().getText().isEmpty()
                 || control.getCrearEquipo().cargarAñosExp().getText().isEmpty()) {
-            control.getVentanaEmergente().ventanaError("Ingrese todos los datos obligatorios");
-        } else {
+            ingresarTodosLosCampos();
+            return;
+        }
 
-            //MIRAR QUE ESTEN LOS JUGADORES COMPLETOS
-            int numJugadores = 0;
-            List<Jugador> jugadores = new ArrayList<>();
-            //1      
-            if (!control.getCrearEquipo().cargarNombre1().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarEdad1().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarCedula1().getText().isEmpty()) {
-                numJugadores++;
+        // Inicializar jugadores
+        List<Jugador> jugadores = new ArrayList<>();
+        String cedulaCapitan = control.getCrearEquipo().cargarCedula().getText();
 
-                jugadores.add(new Jugador(control.getCrearEquipo().cargarCedula1().getText(),
-                        control.getCrearEquipo().cargarNombre1().getText(),
-                        control.getCrearEquipo().cargarEdad1().getText()));
-            }
-            //2     
-            if (!control.getCrearEquipo().cargarNombre2().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarEdad2().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarCedula2().getText().isEmpty()) {
-                numJugadores++;
-                jugadores.add(new Jugador(control.getCrearEquipo().cargarCedula2().getText(),
-                        control.getCrearEquipo().cargarNombre2().getText(),
-                        control.getCrearEquipo().cargarEdad2().getText()));
-            }
+        // Agregar jugadores y verificar datos
+        for (int i = 1; i <= 5; i++) {
+            String nombre = "";
+            String cedula = "";
+            String edad = "";
 
-            //3     
-            if (!control.getCrearEquipo().cargarNombre3().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarEdad3().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarCedula3().getText().isEmpty()) {
-                numJugadores++;
-                jugadores.add(new Jugador(control.getCrearEquipo().cargarCedula3().getText(),
-                        control.getCrearEquipo().cargarNombre3().getText(),
-                        control.getCrearEquipo().cargarEdad3().getText()));
-            }
-            //4    
-            if (!control.getCrearEquipo().cargarNombre4().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarEdad4().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarCedula4().getText().isEmpty()) {
-                numJugadores++;
-                jugadores.add(new Jugador(control.getCrearEquipo().cargarCedula4().getText(),
-                        control.getCrearEquipo().cargarNombre4().getText(),
-                        control.getCrearEquipo().cargarEdad4().getText()));
-            }
-            //5
-            if (!control.getCrearEquipo().cargarNombre5().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarEdad5().getText().isEmpty()
-                    && !control.getCrearEquipo().cargarCedula5().getText().isEmpty()) {
-                numJugadores++;
-                jugadores.add(new Jugador(control.getCrearEquipo().cargarCedula5().getText(),
-                        control.getCrearEquipo().cargarNombre5().getText(),
-                        control.getCrearEquipo().cargarEdad5().getText()));
+            // Usar if para cada jugador
+            if (i == 1) {
+                nombre = control.getCrearEquipo().cargarNombre1().getText();
+                cedula = control.getCrearEquipo().cargarCedula1().getText();
+                edad = control.getCrearEquipo().cargarEdad1().getText();
+            } else if (i == 2) {
+                nombre = control.getCrearEquipo().cargarNombre2().getText();
+                cedula = control.getCrearEquipo().cargarCedula2().getText();
+                edad = control.getCrearEquipo().cargarEdad2().getText();
+            } else if (i == 3) {
+                nombre = control.getCrearEquipo().cargarNombre3().getText();
+                cedula = control.getCrearEquipo().cargarCedula3().getText();
+                edad = control.getCrearEquipo().cargarEdad3().getText();
+            } else if (i == 4) {
+                nombre = control.getCrearEquipo().cargarNombre4().getText();
+                cedula = control.getCrearEquipo().cargarCedula4().getText();
+                edad = control.getCrearEquipo().cargarEdad4().getText();
+            } else if (i == 5) {
+                nombre = control.getCrearEquipo().cargarNombre5().getText();
+                cedula = control.getCrearEquipo().cargarCedula5().getText();
+                edad = control.getCrearEquipo().cargarEdad5().getText();
             }
 
-            if (numJugadores < 5) {
-                control.getVentanaEmergente().ventanaError("El equipo debe tener al menos 5 jugadores.");
-            } else {
-                try {
-                    // Crear el capitán del equipo
-                    String nombreCapitan = control.getCrearEquipo().cargarNombre().getText();
-                    String cedulaCapitan = control.getCrearEquipo().cargarCedula().getText();
-                    int edadCapitan = Integer.parseInt(control.getCrearEquipo().cargarEdad().getText());
-                    String añosExperiencia = control.getCrearEquipo().cargarAñosExp().getText();
+            // Verificar si los campos del jugador están completos
+            if (nombre.isEmpty() || cedula.isEmpty()) {
+                ingresarTodosLosCampos();
+                return;
+            }
 
-                    Capitan capitan = new Capitan(añosExperiencia, cedulaCapitan, nombreCapitan, cedulaCapitan);
+            // Verificar si la cédula ya está en uso
+            if (cedulaRepetida(cedula, jugadores, cedulaCapitan)) {
+                cedulaRepetida(i);
+                return;
+            }
 
-                    // Crear el equipo
-                    Equipo equipo = new Equipo(control.getCrearEquipo().cargarNombreEquipo().getText(), "", capitan, jugadores);
-                    equipos.add(equipo);
+            // Agregar jugador a la lista
+            jugadores.add(new Jugador(cedula, nombre, edad));
+        }
 
-                    // Ocultar la vista de creación de equipo
-                    control.getCrearEquipo().setVisible(false);
+        // Verificar si hay al menos 5 jugadores
+        if (jugadores.size() < 5) {
+            control.getVentanaEmergente().ventanaError("El equipo debe tener al menos 5 jugadores.");
+            return;
+        }
 
-                    // Volver a la vista inicial
-                    control.getVistaInicio().setVisible(true);
+        try {
+            // Crear el capitán del equipo
+            String nombreCapitan = control.getCrearEquipo().cargarNombre().getText();
+            String edadCapitan = control.getCrearEquipo().cargarEdad().getText();
+            String añosExperiencia = control.getCrearEquipo().cargarAñosExp().getText();
 
-                } catch (NumberFormatException e) {
-                    control.getVentanaEmergente().ventanaError("Error en los campos numéricos");
-                }
+            Capitan capitan = new Capitan(añosExperiencia, cedulaCapitan, nombreCapitan, edadCapitan);
+
+            // Crear el equipo
+            Equipo equipo = new Equipo(control.getCrearEquipo().cargarNombreEquipo().getText(), "", capitan, jugadores);
+            equipos.add(equipo);
+
+        } catch (NumberFormatException e) {
+            control.getVentanaEmergente().ventanaError("Error en los campos numéricos");
+        }
+    }
+
+    // Método para validar si la cédula ya está en uso
+    private boolean cedulaRepetida(String cedula, List<Jugador> jugadores, String cedulaCapitan) {
+        if (cedula.equals(cedulaCapitan)) {
+            return true; // La cédula del capitán no puede ser igual a la de ningún jugador
+        }
+
+        for (Jugador jugador : jugadores) {
+            if (jugador.getCedula().equals(cedula)) {
+                return true; // La cédula ya está en uso por otro jugador
             }
         }
+        return false; // La cédula no está en uso
     }
 }
