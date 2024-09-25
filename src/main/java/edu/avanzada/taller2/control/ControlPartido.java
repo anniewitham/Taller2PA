@@ -2,22 +2,23 @@ package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Juez;
+import edu.avanzada.taller2.vista.VentanasEmergentes;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
 public class ControlPartido {
-
     private Equipo equipoA;
     private Equipo equipoB;
-    private Juez juez;
     private int puntajeA;
     private int puntajeB;
     private boolean partidoEnCurso;
     private Random random = new Random();
-    private int puntajeMaximo; // Puntaje máximo para ganar
+    private Properties properties;
     private int[] huecos = new int[10]; // Atributos para los huecos del tablero
+    private Juez juez;
+    private VentanasEmergentes ventanaEmergente;
 
     /**
      * Constructor que inicializa el partido con dos equipos y un juez.
@@ -28,41 +29,39 @@ public class ControlPartido {
      * @param puntajeMaximo El puntaje máximo para ganar el partido.
      * @throws IllegalArgumentException si alguno de los parámetros es nulo.
      */
-    public ControlPartido(Equipo equipoA, Equipo equipoB, Juez juez, int puntajeMaximo) throws IOException {
+    public ControlPartido(Equipo equipoA, Equipo equipoB) throws IOException {
         if (equipoA == null || equipoB == null || juez == null) {
             throw new IllegalArgumentException("Equipo A, equipo B y juez no pueden ser nulos.");
         }
         this.equipoA = equipoA;
         this.equipoB = equipoB;
-        this.juez = juez;
-        this.puntajeMaximo = puntajeMaximo;
         this.puntajeA = 0;
         this.puntajeB = 0;
         this.partidoEnCurso = false;
         
-        // Cargar valores de los huecos desde el archivo properties
-        cargarHuecosDesdeProperties();
+        this.ventanaEmergente = new VentanasEmergentes();
+        
+        this.properties = new Properties();
     }
 
     /**
      * Método para cargar los valores de los huecos desde un archivo properties.
      */
     private void cargarHuecosDesdeProperties() throws IOException {
-        Properties properties = new Properties();
-        FileInputStream input = new FileInputStream("config.properties");
+        FileInputStream input = new FileInputStream("/precarfaJuego.properties");
         properties.load(input);
 
         // Asignar los valores a los huecos
-        huecos[0] = Integer.parseInt(properties.getProperty("orificio1", "20"));
-        huecos[1] = Integer.parseInt(properties.getProperty("orificio2", "20"));
-        huecos[2] = Integer.parseInt(properties.getProperty("orificio3", "30"));
-        huecos[3] = Integer.parseInt(properties.getProperty("orificio4", "30"));
-        huecos[4] = Integer.parseInt(properties.getProperty("orificio5", "40"));
-        huecos[5] = Integer.parseInt(properties.getProperty("orificio6", "40"));
-        huecos[6] = Integer.parseInt(properties.getProperty("orificio7", "150"));
-        huecos[7] = Integer.parseInt(properties.getProperty("orificio8", "150"));
-        huecos[8] = Integer.parseInt(properties.getProperty("orificio9", "200"));
-        huecos[9] = Integer.parseInt(properties.getProperty("orificio10", "300"));
+        huecos[0] = Integer.parseInt(properties.getProperty("orificio1"));
+        huecos[1] = Integer.parseInt(properties.getProperty("orificio2"));
+        huecos[2] = Integer.parseInt(properties.getProperty("orificio3"));
+        huecos[3] = Integer.parseInt(properties.getProperty("orificio4"));
+        huecos[4] = Integer.parseInt(properties.getProperty("orificio5"));
+        huecos[5] = Integer.parseInt(properties.getProperty("orificio6"));
+        huecos[6] = Integer.parseInt(properties.getProperty("orificio7"));
+        huecos[7] = Integer.parseInt(properties.getProperty("orificio8"));
+        huecos[8] = Integer.parseInt(properties.getProperty("orificio9"));
+        huecos[9] = Integer.parseInt(properties.getProperty("orificio10"));
 
         input.close();
     }
@@ -70,13 +69,14 @@ public class ControlPartido {
     /**
      * Inicia la simulación del partido.
      */
-    public void iniciarPartido() {
+    public void iniciarPartido() throws IOException {
         if (partidoEnCurso) {
             throw new IllegalStateException("El partido ya está en curso.");
         }
 
         partidoEnCurso = true;
-        System.out.println("El partido entre " + equipoA.getNombreEquipo() + " y " + equipoB.getNombreEquipo() + " ha comenzado.");
+        cargarHuecosDesdeProperties();
+        ventanaEmergente.ventanaPlana("¡Ha comenzado el partido entre "+equipoA+" y "+equipoB+" ha comenzado!");
     }
 
     /**
@@ -90,16 +90,16 @@ public class ControlPartido {
         }
 
         // Seleccionar un hueco al azar y obtener su valor
-        int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
+        int huecoSeleccionado = (random.nextInt(10))-1; // Random entre 0 y 9
         int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
 
         // Sumamos el puntaje al equipo que lanza
         if (equipoQueLanza.equals(equipoA)) {
             puntajeA += puntajeObtenido;
-            System.out.println("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeA + " puntos.");
+            ventanaEmergente.ventanaPlana("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeObtenido + " puntos.");
         } else if (equipoQueLanza.equals(equipoB)) {
             puntajeB += puntajeObtenido;
-            System.out.println("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeB + " puntos.");
+            ventanaEmergente.ventanaPlana("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeObtenido + " puntos.");
         }
 
         // Verificar si alguno de los equipos ha alcanzado el puntaje máximo

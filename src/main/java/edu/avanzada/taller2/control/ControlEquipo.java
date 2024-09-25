@@ -12,6 +12,9 @@ public class ControlEquipo {
 
     private ControlPrincipal control;
     private ArrayList<Equipo> equipos;
+    private Capitan capitan;
+    private Equipo equipo;
+    private List<Jugador> jugadores;
 
     public ControlEquipo(ControlPrincipal control) {
         this.control = control;
@@ -37,7 +40,7 @@ public class ControlEquipo {
         }
 
         // Inicializar jugadores
-        List<Jugador> jugadores = new ArrayList<>();
+        jugadores = new ArrayList<>();
         String cedulaCapitan = control.getCrearEquipo().cargarCedula().getText();
 
         // Agregar jugadores y verificar datos
@@ -97,10 +100,10 @@ public class ControlEquipo {
             String edadCapitan = control.getCrearEquipo().cargarEdad().getText();
             String añosExperiencia = control.getCrearEquipo().cargarAñosExp().getText();
 
-            Capitan capitan = new Capitan(añosExperiencia, cedulaCapitan, nombreCapitan, edadCapitan);
+            capitan = new Capitan(añosExperiencia, cedulaCapitan, nombreCapitan, edadCapitan);
 
             // Crear el equipo
-            Equipo equipo = new Equipo(control.getCrearEquipo().cargarNombreEquipo().getText(), "", capitan, jugadores);
+            equipo = new Equipo(control.getCrearEquipo().cargarNombreEquipo().getText(), "", capitan, jugadores);
             equipos.add(equipo);
 
         } catch (NumberFormatException e) {
