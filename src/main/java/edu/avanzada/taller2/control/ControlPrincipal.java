@@ -2,6 +2,7 @@ package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.vista.CrearEquipo;
 import edu.avanzada.taller2.vista.Inicio;
+import edu.avanzada.taller2.vista.Juego;
 import edu.avanzada.taller2.vista.VentanasEmergentes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ public class ControlPrincipal implements ActionListener {
     private VentanasEmergentes ventanaEmergente;
     private CrearEquipo vistaCrearEquipo;
     private Inicio vistaInicio;
+    private Juego vistaJuego;
 
     public ControlPrincipal() {
         controlEquipo = new ControlEquipo(this);
@@ -29,6 +31,11 @@ public class ControlPrincipal implements ActionListener {
         vistaInicio.BotonRegistrarEquipo.addActionListener(this);
         vistaInicio.BotonJuez.addActionListener(this);
         vistaInicio.BotonJugar.addActionListener(this);
+        
+        vistaJuego = new Juego(this);
+        vistaJuego.BotonSalir.addActionListener(this);
+        vistaJuego.BotonLanzarTejo.addActionListener(this);
+        vistaJuego.jRadioButton1.addActionListener(this);
     }
 
     @Override
@@ -51,7 +58,8 @@ public class ControlPrincipal implements ActionListener {
             vistaInicio.setVisible(true);
         }
         if ("Jugar".equals(e.getActionCommand())) {
-
+            vistaJuego.setVisible(true);
+            vistaInicio.dispose();
         }
     }
 

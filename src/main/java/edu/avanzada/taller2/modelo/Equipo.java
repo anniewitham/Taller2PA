@@ -29,7 +29,7 @@ public class Equipo implements Serializable{
         this.jugadores = jugadores;
     }
     
-    //getters y setters 
+    //getters y setters
     public String getNombreEquipo() {
         return nombreEquipo;
     }
