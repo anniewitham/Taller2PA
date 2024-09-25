@@ -33,40 +33,32 @@ public class Equipo implements Serializable{
     public String getNombreEquipo() {
         return nombreEquipo;
     }
-
    
     public void setNombreEquipo(String nombreEquipo) {
         this.nombreEquipo = nombreEquipo;
     }
 
-   
     public String getNumeroEquipo() {
         return numeroEquipo;
     }
-
     
     public void setNumeroEquipo(String numeroEquipo) {
         this.numeroEquipo = numeroEquipo;
     }
-
     
     public Capitan getCapitan() {
         return capitan;
     }
-
    
     public void setCapitan(Capitan capitan) {
         this.capitan = capitan;
     }
-
    
     public List<Jugador> getJugadores() {
         return jugadores;
     }
 
-    
     public void setJugadores(List<Jugador> jugadores) {
         this.jugadores = jugadores;
     }
-
 }

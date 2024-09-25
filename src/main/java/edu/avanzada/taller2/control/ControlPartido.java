@@ -2,10 +2,8 @@ package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Juez;
-import edu.avanzada.taller2.vista.VentanasEmergentes;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ControlPartido {
@@ -14,11 +12,17 @@ public class ControlPartido {
     private int puntajeA;
     private int puntajeB;
     private boolean partidoEnCurso;
-    private Random random = new Random();
-    private Properties properties;
-    private int[] huecos = new int[10]; // Atributos para los huecos del tablero
+    private Random random;
+    private int[] huecos; // Atributos para los huecos del tablero
     private Juez juez;
-    private VentanasEmergentes ventanaEmergente;
+    private int puntajeMaximo;
+    private ArrayList<Equipo> equipos;
+    private String nombreA;
+    private String nombreB;
+    
+    private ControlProperties properties;
+    private ControlPrincipal control;
+    private ControlEquipo controlEquipo;
 
     /**
      * Constructor que inicializa el partido con dos equipos y un juez.
@@ -29,41 +33,35 @@ public class ControlPartido {
      * @param puntajeMaximo El puntaje máximo para ganar el partido.
      * @throws IllegalArgumentException si alguno de los parámetros es nulo.
      */
-    public ControlPartido(Equipo equipoA, Equipo equipoB) throws IOException {
-        if (equipoA == null || equipoB == null || juez == null) {
-            throw new IllegalArgumentException("Equipo A, equipo B y juez no pueden ser nulos.");
-        }
-        this.equipoA = equipoA;
-        this.equipoB = equipoB;
+    public ControlPartido() throws IOException {
+        
+        this.properties = new ControlProperties();
+        this.control = new ControlPrincipal();
+        this.controlEquipo = new ControlEquipo();
+        
+        this.equipos = controlEquipo.getEquipos();
+        this.equipoA = equipos.get(0);
+        this.equipoB = equipos.get(1);
+        this.nombreA = equipoA.getNombreEquipo();
+        this.nombreB = equipoB.getNombreEquipo();
         this.puntajeA = 0;
         this.puntajeB = 0;
         this.partidoEnCurso = false;
+        this.random = new Random();
+        this.huecos = new int[10];
+        this.puntajeMaximo = properties.obtenerPuntajeMaximo("puntuacion.maxima", "0");
         
-        this.ventanaEmergente = new VentanasEmergentes();
-        
-        this.properties = new Properties();
+        cargarValores();
     }
 
     /**
      * Método para cargar los valores de los huecos desde un archivo properties.
      */
-    private void cargarHuecosDesdeProperties() throws IOException {
-        FileInputStream input = new FileInputStream("/precarfaJuego.properties");
-        properties.load(input);
-
-        // Asignar los valores a los huecos
-        huecos[0] = Integer.parseInt(properties.getProperty("orificio1"));
-        huecos[1] = Integer.parseInt(properties.getProperty("orificio2"));
-        huecos[2] = Integer.parseInt(properties.getProperty("orificio3"));
-        huecos[3] = Integer.parseInt(properties.getProperty("orificio4"));
-        huecos[4] = Integer.parseInt(properties.getProperty("orificio5"));
-        huecos[5] = Integer.parseInt(properties.getProperty("orificio6"));
-        huecos[6] = Integer.parseInt(properties.getProperty("orificio7"));
-        huecos[7] = Integer.parseInt(properties.getProperty("orificio8"));
-        huecos[8] = Integer.parseInt(properties.getProperty("orificio9"));
-        huecos[9] = Integer.parseInt(properties.getProperty("orificio10"));
-
-        input.close();
+    private void cargarValores() throws IOException {
+        for(int i=0;i<huecos.length;i++){
+            String clave = "orificio.hueco" + (i + 1);
+            huecos[i] = properties.obtenerValorHueco(clave, "0");
+        }
     }
 
     /**
@@ -73,10 +71,15 @@ public class ControlPartido {
         if (partidoEnCurso) {
             throw new IllegalStateException("El partido ya está en curso.");
         }
-
+        if (equipoA == null || equipoB == null || juez == null) {
+            throw new IllegalArgumentException("Equipo A, equipo B y juez no pueden ser nulos.");
+        }
+        
+        control.getVistaInicio().dispose();
+        control.getVistaJuego().setVisible(true);
         partidoEnCurso = true;
-        cargarHuecosDesdeProperties();
-        ventanaEmergente.ventanaPlana("¡Ha comenzado el partido entre "+equipoA+" y "+equipoB+" ha comenzado!");
+        reiniciarPartido();
+        control.getVentanaEmergente().ventanaPlana("¡Ha comenzado el partido entre "+nombreA+" y "+nombreB+" ha comenzado!");
     }
 
     /**
@@ -96,10 +99,10 @@ public class ControlPartido {
         // Sumamos el puntaje al equipo que lanza
         if (equipoQueLanza.equals(equipoA)) {
             puntajeA += puntajeObtenido;
-            ventanaEmergente.ventanaPlana("Equipo A (" + equipoA.getNombreEquipo() + ") ha anotado: " + puntajeObtenido + " puntos.");
+            control.getVentanaEmergente().ventanaPlana("Equipo A (" + nombreA + ") ha anotado: " + puntajeObtenido + " puntos.");
         } else if (equipoQueLanza.equals(equipoB)) {
             puntajeB += puntajeObtenido;
-            ventanaEmergente.ventanaPlana("Equipo B (" + equipoB.getNombreEquipo() + ") ha anotado: " + puntajeObtenido + " puntos.");
+            control.getVentanaEmergente().ventanaPlana("Equipo B (" + nombreB + ") ha anotado: " + puntajeObtenido + " puntos.");
         }
 
         // Verificar si alguno de los equipos ha alcanzado el puntaje máximo
@@ -117,15 +120,7 @@ public class ControlPartido {
         }
 
         partidoEnCurso = false;
-        System.out.println("El partido ha terminado.");
-
-        if (puntajeA > puntajeB) {
-            System.out.println("¡El equipo A (" + equipoA.getNombreEquipo() + ") ha ganado con " + puntajeA + " puntos!");
-        } else if (puntajeB > puntajeA) {
-            System.out.println("¡El equipo B (" + equipoB.getNombreEquipo() + ") ha ganado con " + puntajeB + " puntos!");
-        } else {
-            System.out.println("El partido ha terminado en empate con " + puntajeA + " puntos cada uno.");
-        }
+        control.getVentanaEmergente().ventanaPlana("¡El partido ha llegado a su fin!");
     }
 
     /**
@@ -135,7 +130,6 @@ public class ControlPartido {
         puntajeA = 0;
         puntajeB = 0;
         partidoEnCurso = false;
-        System.out.println("El partido ha sido reiniciado.");
     }
 
     // Getters y Setters
@@ -188,7 +182,4 @@ public class ControlPartido {
     public int getPuntajeMaximo() {
         return puntajeMaximo;
     }
-    
-    
 }
-

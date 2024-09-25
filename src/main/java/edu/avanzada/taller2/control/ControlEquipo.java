@@ -15,7 +15,11 @@ public class ControlEquipo {
     private Capitan capitan;
     private Equipo equipo;
     private List<Jugador> jugadores;
-
+    
+    public ControlEquipo(){
+        
+    }
+    
     public ControlEquipo(ControlPrincipal control) {
         this.control = control;
         this.equipos = new ArrayList<>();
@@ -26,7 +30,7 @@ public class ControlEquipo {
     }
 
     public void cedulaRepetida(int i) {
-        control.getVentanaEmergente().ventanaError("La cédula "+i+" ya se encuentra en uso");
+        control.getVentanaEmergente().ventanaAtención("La cédula "+i+" ya se encuentra en uso");
     }
 
     public void crearEquipo() {
@@ -124,4 +128,46 @@ public class ControlEquipo {
         }
         return false; // La cédula no está en uso
     }
+
+    public ControlPrincipal getControl() {
+        return control;
+    }
+
+    public void setControl(ControlPrincipal control) {
+        this.control = control;
+    }
+
+    public ArrayList<Equipo> getEquipos() {
+        return equipos;
+    }
+
+    public void setEquipos(ArrayList<Equipo> equipos) {
+        this.equipos = equipos;
+    }
+
+    public Capitan getCapitan() {
+        return capitan;
+    }
+
+    public void setCapitan(Capitan capitan) {
+        this.capitan = capitan;
+    }
+
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
+    }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+    
+    
 }

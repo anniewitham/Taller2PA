@@ -6,6 +6,9 @@ import edu.avanzada.taller2.vista.Juego;
 import edu.avanzada.taller2.vista.VentanasEmergentes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControlPrincipal implements ActionListener {
 
@@ -15,8 +18,9 @@ public class ControlPrincipal implements ActionListener {
     private CrearEquipo vistaCrearEquipo;
     private Inicio vistaInicio;
     private Juego vistaJuego;
+    private ControlPartido partido;
 
-    public ControlPrincipal() {
+    public ControlPrincipal() throws IOException {
         controlEquipo = new ControlEquipo(this);
         
         ventanaEmergente = new VentanasEmergentes();
@@ -36,6 +40,8 @@ public class ControlPrincipal implements ActionListener {
         vistaJuego.BotonSalir.addActionListener(this);
         vistaJuego.BotonLanzarTejo.addActionListener(this);
         vistaJuego.jRadioButton1.addActionListener(this);
+        
+        partido = new ControlPartido();
     }
 
     @Override
@@ -60,6 +66,12 @@ public class ControlPrincipal implements ActionListener {
         if ("Jugar".equals(e.getActionCommand())) {
             vistaJuego.setVisible(true);
             vistaInicio.dispose();
+            try {
+                partido.iniciarPartido();
+            } catch (IOException ex) {
+                Logger.getLogger(ControlPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
 
@@ -74,5 +86,11 @@ public class ControlPrincipal implements ActionListener {
     public Inicio getVistaInicio() {
         return vistaInicio;
     }
+
+    public Juego getVistaJuego() {
+        return vistaJuego;
+    }
+    
+    
 
 }
