@@ -1,10 +1,12 @@
 package edu.avanzada.taller2.modelo;
 
+import java.io.Serializable;
+
 /**
  * Representa a un juez que extiende de la clase Persona, con número de tarjeta
  * profesional adicional.
  */
-public class Juez extends Persona {
+public class Juez extends Persona implements Serializable{
 
     private String numTarjetaProf;
 

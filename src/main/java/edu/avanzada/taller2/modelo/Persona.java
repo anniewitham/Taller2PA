@@ -1,9 +1,11 @@
 package edu.avanzada.taller2.modelo;
 
+import java.io.Serializable;
+
 /**
  * Representa a una persona con número de identificación, nombre y edad.
  */
-public class Persona {
+public class Persona implements Serializable{
 
     private String cedula;
     private String nombre;

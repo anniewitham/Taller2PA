@@ -1,10 +1,12 @@
 package edu.avanzada.taller2.modelo;
 
+import java.io.Serializable;
+
 /**
  * Representa a un jugador que extiende de la clase Persona, con número de
  * posición adicional.
  */
-public class Jugador extends Persona {
+public class Jugador extends Persona implements Serializable{
 
     private String numeroPosicion;
 

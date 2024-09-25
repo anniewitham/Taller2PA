@@ -7,15 +7,18 @@ package edu.avanzada.taller2.vista;
 import edu.avanzada.taller2.control.ControlPrincipal;
 
 /**
- *
- * @author Personal
- */
+ * Clase que representa la ventana de inicio del juego.
+ * 
+ * 
+ */ 
 public class Inicio extends javax.swing.JFrame {
 
     private ControlPrincipal control;
 
-    /**
-     * Creates new form Inicio
+     /**
+     * Constructor que inicializa la ventana de inicio con el controlador principal.
+     * 
+     * @param aThis El controlador principal.
      */
     public Inicio(ControlPrincipal aThis) {
         initComponents();

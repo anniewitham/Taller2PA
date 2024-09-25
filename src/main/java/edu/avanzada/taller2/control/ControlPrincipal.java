@@ -1,6 +1,8 @@
 package edu.avanzada.taller2.control;
 
 import edu.avanzada.taller2.modelo.Equipo;
+import edu.avanzada.taller2.modelo.Persona;
+import edu.avanzada.taller2.modelo.Serializacion;
 import edu.avanzada.taller2.vista.CrearEquipo;
 import edu.avanzada.taller2.vista.Inicio;
 import edu.avanzada.taller2.vista.Juego;
@@ -9,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,19 +90,72 @@ public class ControlPrincipal implements ActionListener {
         }
     }
 
+    /**
+     * Obtiene la vista para crear un equipo.
+     *
+     * @
+     * return La vista para crear un equipo
+     *
+     */
     public CrearEquipo getCrearEquipo() {
         return vistaCrearEquipo;
     }
 
+    /**
+     * Obtiene la ventana emergente.
+     *
+     * @return La ventana emergente.
+     */
     public VentanasEmergentes getVentanaEmergente() {
         return ventanaEmergente;
     }
 
+    /**
+     * Obtiene la vista de inicio.
+     *
+     * @return La vista de inicio.
+     */
     public Inicio getVistaInicio() {
         return vistaInicio;
     }
 
+    /**
+     * Obtiene la vista del juego.
+     *
+     * @return La vista del juego.
+     */
     public Juego getVistaJuego() {
         return vistaJuego;
+    }
+
+
+    /**
+     * Cargar personas deserializadas desde el archivo.
+     *
+     * @return Lista de personas deserializada o una lista vacía si ocurre un
+     * error.
+     */
+    private List<Persona> cargarPersonas() {
+        try {
+            return Serializacion.deserializarPersonas();
+        } catch (IOException | ClassNotFoundException e) {
+            Logger.getLogger(ControlPrincipal.class.getName()).log(Level.SEVERE, "Error al cargar las personas: " + e.getMessage(), e);
+            return new ArrayList<>(); // Retorna una lista vacía si hay un error.
+        }
+    }
+
+    /**
+     * Guardar lista de personas serializándola en el archivo.
+     *
+     * @param listaPersonas Lista de personas a serializar.
+     * @throws IOException Si ocurre un error durante la serialización.
+     */
+    private void guardarPersonas(List<Persona> listaPersonas) throws IOException {
+        try {
+            Serializacion.serializarPersonas(listaPersonas);
+        } catch (IOException e) {
+            Logger.getLogger(ControlPrincipal.class.getName()).log(Level.SEVERE, "Error al guardar las personas: " + e.getMessage(), e);
+            throw e; // Lanza la excepción para que sea manejada en otro nivel si es necesario.
+        }
     }
 }

@@ -3,24 +3,27 @@ package edu.avanzada.taller2.vista;
 import edu.avanzada.taller2.control.ControlPrincipal;
 import javax.swing.JTextField;
 
-
 /**
- *
- * @author Personal
+ * Clase que representa la ventana para crear un equipo.
+ * 
  */
 public class CrearEquipo  extends javax.swing.JFrame {
 
     private ControlPrincipal control;
 
     /**
-     * Creates new form CrearEquipo
+     * Constructor que inicializa la ventana con el controlador principal.
+     * 
+     * @param aThis El controlador principal.
      */
     public CrearEquipo(ControlPrincipal aThis) {
         initComponents();
         control = aThis;
         setLocationRelativeTo(null);
     }
-    
+     /**
+     * Método para resetear los campos de la ventana.
+     */
     public void resetearCamposCrearEquipo() {
         TextoNombreEquipo.setText("");
 
@@ -118,6 +121,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         Equipo.setBackground(new java.awt.Color(153, 153, 255));
 
@@ -167,7 +171,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                         .addComponent(BotonRegistrar)))
                 .addGap(22, 22, 22))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                .addGap(0, 68, Short.MAX_VALUE)
+                .addGap(0, 98, Short.MAX_VALUE)
                 .addGroup(NombreEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
                         .addComponent(jLabel26)
@@ -183,17 +187,16 @@ public class CrearEquipo  extends javax.swing.JFrame {
                 .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel26)
+                .addGap(18, 18, 18)
                 .addGroup(NombreEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NombreEquipoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BotonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BotonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(NombreEquipoLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(TextoNombreEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addComponent(BotonRegistrar)
-                        .addGap(18, 18, 18))))
+                        .addComponent(BotonRegistrar)))
+                .addGap(18, 18, 18))
         );
 
         Equipo.addTab("Nombre E", NombreEquipo);
@@ -239,16 +242,12 @@ public class CrearEquipo  extends javax.swing.JFrame {
         CapitanLayout.setHorizontalGroup(
             CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CapitanLayout.createSequentialGroup()
+                .addGap(33, 55, Short.MAX_VALUE)
                 .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CapitanLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CapitanLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(CapitanLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
@@ -286,7 +285,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                 .addGroup(CapitanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AñosExp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         Equipo.addTab("Capitan", Capitan);
@@ -334,7 +333,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addComponent(Nombre1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addComponent(Edad1)
                     .addComponent(Cedula1))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         Jugador1Layout.setVerticalGroup(
             Jugador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,7 +400,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addComponent(Nombre2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addComponent(Edad2)
                     .addComponent(Cedula2))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         Jugador2Layout.setVerticalGroup(
             Jugador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,7 +467,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addComponent(Nombre3, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addComponent(Edad3)
                     .addComponent(Cedula3))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         Jugador3Layout.setVerticalGroup(
             Jugador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -535,7 +534,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addComponent(Nombre4, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addComponent(Edad4)
                     .addComponent(Cedula4))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         Jugador4Layout.setVerticalGroup(
             Jugador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -602,7 +601,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
                     .addComponent(Edad5, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(Nombre5)
                     .addComponent(Cedula5))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
         Jugador5Layout.setVerticalGroup(
             Jugador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -630,7 +629,7 @@ public class CrearEquipo  extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Equipo, javax.swing.GroupLayout.PREFERRED_SIZE, 337, Short.MAX_VALUE)
+            .addComponent(Equipo)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

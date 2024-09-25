@@ -57,13 +57,14 @@ public class Juego extends javax.swing.JFrame {
         jPanel1.add(BotonLanzarBola);
         BotonLanzarBola.setBounds(150, 190, 38, 15);
 
+        jRadioButton1.setBackground(new java.awt.Color(204, 204, 255));
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
             }
         });
         jPanel1.add(jRadioButton1);
-        jRadioButton1.setBounds(100, 160, 30, 28);
+        jRadioButton1.setBounds(100, 160, 30, 20);
 
         jLabel26.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(0, 0, 153));
@@ -83,7 +84,7 @@ public class Juego extends javax.swing.JFrame {
 
         jLabel2.setText("<))>");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(70, 100, 22, 16);
+        jLabel2.setBounds(70, 100, 24, 16);
 
         jLabel3.setText("_/\\_");
         jPanel1.add(jLabel3);

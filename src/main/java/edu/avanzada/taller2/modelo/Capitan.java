@@ -1,10 +1,12 @@
 package edu.avanzada.taller2.modelo;
 
+import java.io.Serializable;
+
 /**
  * Representa a un capitán que extiende de la clase Persona, con años de
  * experiencia adicionales.
  */
-public class Capitan extends Persona {
+public class Capitan extends Persona implements Serializable{
 
     private String añosExperiencia;
 

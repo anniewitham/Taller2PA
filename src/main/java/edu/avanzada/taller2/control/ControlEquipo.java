@@ -3,6 +3,8 @@ package edu.avanzada.taller2.control;
 import edu.avanzada.taller2.modelo.Capitan;
 import edu.avanzada.taller2.modelo.Equipo;
 import edu.avanzada.taller2.modelo.Jugador;
+import edu.avanzada.taller2.modelo.Serializacion;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,8 +174,17 @@ public class ControlEquipo {
     public List<Jugador> getJugadores() {
         return jugadores;
     }
+    
 
     public void setJugadores(List<Jugador> jugadores) {
         this.jugadores = jugadores;
+    }
+    public void finalizarPartido() {
+        if (equipo != null) {
+            Serializacion.serializarEquipo(equipo);
+            control.getVentanaEmergente().ventanaAtención("El partido ha finalizado y el equipo ha sido serializado.");
+        } else {
+            control.getVentanaEmergente().ventanaError("No hay un equipo para serializar.");
+        }
     }
 }
