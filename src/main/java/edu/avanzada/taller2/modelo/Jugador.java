@@ -49,21 +49,15 @@ public class Jugador extends Persona {
         this.numeroPosicion = numeroPosicion;
     }
 
-    /**
-     * Devuelve el número de posición del jugador.
-     *
-     * @return El número de posición del jugador.
-     */
     public String getNumeroPosicion() {
         return numeroPosicion;
     }
 
-    /**
-     * Establece el número de posición del jugador.
-     *
-     * @param numeroPosicion El nuevo número de posición para el jugador.
-     */
     public void setNumeroPosicion(String numeroPosicion) {
         this.numeroPosicion = numeroPosicion;
     }
+
+    
+    
+    
 }
