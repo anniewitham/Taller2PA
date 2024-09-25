@@ -29,19 +29,22 @@ public class ControlPartido {
      *
      * @param equipoA El equipo A.
      * @param equipoB El equipo B.
-     * @param juez El juez asignado al partido.
-     * @param puntajeMaximo El puntaje máximo para ganar el partido.
+     * @param control El controlador principal.
      * @throws IllegalArgumentException si alguno de los parámetros es nulo.
      */
-    public ControlPartido() throws IOException {
-        
+    public ControlPartido(Equipo equipoA, Equipo equipoB, ControlPrincipal control) throws IOException {
+        if (equipoA == null || equipoB == null) {
+            control.getVentanaEmergente().ventanaError("¡No se puede iniciar el juego sin ambos equipos!");
+            throw new IllegalArgumentException("Equipo A y equipo B no pueden ser nulos.");
+        }
+
         this.properties = new ControlProperties();
-        this.control = new ControlPrincipal();
-        this.controlEquipo = new ControlEquipo();
+        this.control = control;
+        this.controlEquipo = new ControlEquipo(control);
         
         this.equipos = controlEquipo.getEquipos();
-        this.equipoA = equipos.get(0);
-        this.equipoB = equipos.get(1);
+        this.equipoA = equipoA;
+        this.equipoB = equipoB;
         this.nombreA = equipoA.getNombreEquipo();
         this.nombreB = equipoB.getNombreEquipo();
         this.puntajeA = 0;
@@ -58,7 +61,7 @@ public class ControlPartido {
      * Método para cargar los valores de los huecos desde un archivo properties.
      */
     private void cargarValores() throws IOException {
-        for(int i=0;i<huecos.length;i++){
+        for(int i=0; i<huecos.length; i++){
             String clave = "orificio.hueco" + (i + 1);
             huecos[i] = properties.obtenerValorHueco(clave, "0");
         }
@@ -71,15 +74,12 @@ public class ControlPartido {
         if (partidoEnCurso) {
             throw new IllegalStateException("El partido ya está en curso.");
         }
-        if (equipoA == null || equipoB == null || juez == null) {
-            throw new IllegalArgumentException("Equipo A, equipo B y juez no pueden ser nulos.");
-        }
         
         control.getVistaInicio().dispose();
         control.getVistaJuego().setVisible(true);
         partidoEnCurso = true;
         reiniciarPartido();
-        control.getVentanaEmergente().ventanaPlana("¡Ha comenzado el partido entre "+nombreA+" y "+nombreB+" ha comenzado!");
+        control.getVentanaEmergente().ventanaPlana("¡Ha comenzado el partido entre " + nombreA + " y " + nombreB + "!");
     }
 
     /**
@@ -93,7 +93,7 @@ public class ControlPartido {
         }
 
         // Seleccionar un hueco al azar y obtener su valor
-        int huecoSeleccionado = (random.nextInt(10))-1; // Random entre 0 y 9
+        int huecoSeleccionado = random.nextInt(10); // Random entre 0 y 9
         int puntajeObtenido = huecos[huecoSeleccionado]; // Valor del hueco seleccionado
 
         // Sumamos el puntaje al equipo que lanza

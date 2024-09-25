@@ -13,7 +13,7 @@ public class ControlProperties {
     }
     
     private void cargarProperties() throws IOException{
-        try(FileInputStream input = new FileInputStream("./PrecargaJuego.properties")){
+        try(FileInputStream input = new FileInputStream("./specs/PrecargaJuego.properties")){
             properties.load(input);
         }
     }

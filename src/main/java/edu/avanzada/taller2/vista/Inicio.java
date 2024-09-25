@@ -34,7 +34,6 @@ public class Inicio extends javax.swing.JFrame {
         BotonJugar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         BotonSalir = new javax.swing.JButton();
-        BotonJuez = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -71,15 +70,6 @@ public class Inicio extends javax.swing.JFrame {
         BotonSalir.setText("Salir");
         BotonSalir.setBorder(null);
 
-        BotonJuez.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        BotonJuez.setForeground(new java.awt.Color(102, 102, 102));
-        BotonJuez.setText("Registrar Juez");
-        BotonJuez.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonJuezActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -90,9 +80,8 @@ public class Inicio extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(BotonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BotonRegistrarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BotonJuez, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BotonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(74, 74, 74))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -109,14 +98,12 @@ public class Inicio extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(BotonJuez, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel2)))
+                .addGap(46, 46, 46)
                 .addComponent(BotonRegistrarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(BotonJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,12 +130,7 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonJugarActionPerformed
 
-    private void BotonJuezActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonJuezActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonJuezActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton BotonJuez;
     public javax.swing.JButton BotonJugar;
     public javax.swing.JButton BotonRegistrarEquipo;
     public javax.swing.JButton BotonSalir;
