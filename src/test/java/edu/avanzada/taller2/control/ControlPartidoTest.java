@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ControlPartidoTest {
 
-    private ControlPartido controlPartido; // Instancia del controlador del partido
-    private Equipo equipoA; // Equipo A para las pruebas
-    private Equipo equipoB; // Equipo B para las pruebas
-    private Juez juez; // Juez para el partido
-     private ControlPrincipal controlPrincipal; // Instancia del controlador principal
+    protected ControlPartido controlPartido; // Instancia del controlador del partido
+    protected Equipo equipoA; // Equipo A para las pruebas
+    protected Equipo equipoB; // Equipo B para las pruebas
+    protected Juez juez; // Juez para el partido
+    protected ControlPrincipal controlPrincipal; // Instancia del controlador principal
 
      @BeforeEach
     void setUp() throws IOException {

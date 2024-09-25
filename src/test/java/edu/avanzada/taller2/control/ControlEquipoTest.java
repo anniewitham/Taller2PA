@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 public class ControlEquipoTest {
 
-    private ControlPrincipal control;
-    private ControlEquipo controlEquipo;
+    protected ControlPrincipal control;
+    protected ControlEquipo controlEquipo;
 
     @BeforeEach
     public void setUp() throws IOException {

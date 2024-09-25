@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ControlPropertiesTest {
-    private ControlProperties instance;
+    protected ControlProperties instance;
 
     @BeforeEach
     public void setUp() throws IOException {

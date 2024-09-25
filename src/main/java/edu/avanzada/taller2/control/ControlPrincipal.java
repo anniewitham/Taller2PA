@@ -50,6 +50,8 @@ public class ControlPrincipal implements ActionListener {
             ventanaEmergente.ventanaError("No hay suficientes equipos para iniciar el partido.");
         }
     }
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {

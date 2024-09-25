@@ -19,11 +19,11 @@ import static org.mockito.Mockito.*;
 
 public class ControlPrincipalTest {
 
-    private ControlPrincipal controlPrincipal; // Controlador principal a probar
-    private CrearEquipo vistaCrearEquipo; // Vista de crear equipo mockeada
-    private Inicio vistaInicio; // Vista de inicio mockeada
-    private Juego vistaJuego; // Vista de juego mockeada
-    private VentanasEmergentes ventanaEmergente; // Ventana emergente mockeada
+    protected ControlPrincipal controlPrincipal; // Controlador principal a probar
+    protected CrearEquipo vistaCrearEquipo; // Vista de crear equipo mockeada
+    protected Inicio vistaInicio; // Vista de inicio mockeada
+    protected Juego vistaJuego; // Vista de juego mockeada
+    protected VentanasEmergentes ventanaEmergente; // Ventana emergente mockeada
 
     @BeforeEach
     public void setUp() throws IOException {
